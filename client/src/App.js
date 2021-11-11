@@ -1,11 +1,9 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
-import Button from '@mui/material/Button';
 
 import Nav from './components/Nav';
-import Footer from './components/Nav';
-import Home from './components/Nav';
-import Dashboard from './components/Nav';
+import Footer from './components/Footer';
+import Home from './components/Home';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
