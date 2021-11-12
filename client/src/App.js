@@ -16,8 +16,6 @@ function App() {
         <Home>
 
         </Home>
-
-        <Dashboard></Dashboard>
       </main>
 
       <footer>
