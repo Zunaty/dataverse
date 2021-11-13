@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
+const { User, List } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -7,25 +7,29 @@ const resolvers = {
         me: async (parent, args, context) => {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
-                .select('-__v -password')
-                
+                    .select('-__v -password')
+
                 return userData;
             }
-      
+
             throw new AuthenticationError('Not logged in');
         },
         users: async () => {
             const users = await User.find()
                 .select('-__v -password');
 
-                return users;
+            return users;
         },
         user: async (parent, { username }) => {
             const user = await User.findOne({ username })
                 .select('-__v -password');
 
-                return user;
-                
+            return user;
+
+        },
+        lists: async (parent, { username }) => {
+            const params = username ? { username } : {};
+            return List.find(params).sort({ createdAt: -1});
         }
     },
 
@@ -38,20 +42,21 @@ const resolvers = {
         },
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
-      
+
             if (!user) {
                 throw new AuthenticationError('Incorrect credentials');
             }
-      
+
             const correctPw = await user.isCorrectPassword(password);
-      
+
             if (!correctPw) {
                 throw new AuthenticationError('Incorrect credentials');
             }
-      
+
             const token = signToken(user);
             return { token, user };
-        },
+        }
+        // addList: async
     }
 };
 

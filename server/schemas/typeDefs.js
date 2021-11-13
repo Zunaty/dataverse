@@ -10,7 +10,17 @@ const typeDefs = gql`
     email: String
   }
 
-  type
+  type List {
+    username: String
+    _id: ID
+    listName: String
+    createdAt: String
+    itemName: String
+    itemDescription: String
+    itemImg: String
+    itemQuantity: Int
+    itemPrice: String
+  }
 
   type Auth {
     token: ID!
@@ -21,6 +31,7 @@ const typeDefs = gql`
     me: User
     users: [User]
     user(username: String!): [User]
+    lists(username: String): [List]
   }
 
   type Mutation {
