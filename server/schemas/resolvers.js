@@ -16,7 +16,8 @@ const resolvers = {
         },
         users: async () => {
             const users = await User.find()
-                .select('-__v -password');
+                .select('-__v -password')
+                .populate('lists');
 
             return users;
         },

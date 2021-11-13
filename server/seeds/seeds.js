@@ -2,6 +2,7 @@ const faker = require('faker');
 
 const db = require('../config/connection');
 const { User, List } = require('../models');
+const { listeners } = require('../models/List');
 
 db.once('open', async () => {
     await User.deleteMany({});
@@ -30,13 +31,13 @@ db.once('open', async () => {
         const itemImg = faker.image.imageUrl();
         const itemQuantity = 10;
         const itemPrice = faker.finance.amount();
-    
-        userData.push({ username, email, password });
+
         listData.push({ username, listName, itemName, itemDescription, itemImg, itemQuantity, itemPrice });
+        userData.push({ username, email, password });
     }
 
-    await User.collection.insertMany(userData);
-    await List.collection.insertMany(listData);
+    const createdUser = await User.collection.insertMany(userData);
+    const createdList = await List.collection.insertMany(listData);
 
     console.log('all done!');
     process.exit(0);
