@@ -8,29 +8,25 @@ const resolvers = {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
+                    .populate('lists');
 
                 return userData;
             }
 
             throw new AuthenticationError('Not logged in');
         },
-        users: async () => {
-            const users = await User.find()
+        user: async (parent, { username }) => {
+            const params = username ? { username } : {};
+            const user = await User.find(params)
                 .select('-__v -password')
                 .populate('lists');
-
-            return users;
-        },
-        user: async (parent, { username }) => {
-            const user = await User.findOne({ username })
-                .select('-__v -password');
 
             return user;
 
         },
         lists: async (parent, { username }) => {
             const params = username ? { username } : {};
-            return List.find(params).sort({ createdAt: -1});
+            return List.find(params).sort({ createdAt: -1 });
         }
     },
 
@@ -56,8 +52,22 @@ const resolvers = {
 
             const token = signToken(user);
             return { token, user };
-        }
-        // addList: async
+        },
+        addList: async (parent, args, context) => {
+            if (context.user) {
+                const list = await List.create({ ...args, username: context.user.username });
+
+                await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { lists: list._id } },
+                    { new: true }
+                );
+
+                return list;
+            }
+
+            throw new AuthenticationError('You need to be logged in!');
+        },
     }
 };
 
