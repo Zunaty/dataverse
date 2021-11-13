@@ -1,39 +1,49 @@
-import * as React from 'react';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
+// importing our components
 import Nav from './components/Nav';
 import Footer from './components/Footer';
+// Home is the Login Form
 import Home from './components/Home';
+// import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams
-} from "react-router-dom";
 import SignUp from './components/Signup';
 
+const client = new ApolloClient({
+  uri: '/graphql',
+  cache: new InMemoryCache()
+});
+
 function App() {
-  return (<Router>
-    <div>
-      <header>
-        <Nav></Nav>
-      </header>
-      <main> 
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path={"/signup"} element={<SignUp/>}/>
-    </Routes>
-      </main>
+ 
+  return (
+    <ApolloProvider client={client}>
+      
+        <div>
+          <header>
+            <Nav />
+          </header>
 
-      <footer>
-        <Footer></Footer>
-      </footer>
-    </div>
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route element="404 Page Not Found" />
+            </Routes>
+          </main>
 
-    </Router>
-  );
+          <footer>
+            <Footer />
+          </footer>
+        </div>
+      
+    </ApolloProvider>
+  )
+  //);
 }
 
 export default App;
