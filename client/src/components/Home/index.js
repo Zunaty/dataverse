@@ -2,7 +2,6 @@
 // Sign in
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -39,12 +38,15 @@ function Home() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          </Avatar>
+          {/* Sign In Title Text */}
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+
+          {/* Form box */}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+
+            {/* Email Field */}
             <TextField
               margin="normal"
               required
@@ -55,6 +57,8 @@ function Home() {
               autoComplete="email"
               autoFocus
             />
+
+            {/* Password Field */}
             <TextField
               margin="normal"
               required
@@ -65,10 +69,14 @@ function Home() {
               id="password"
               autoComplete="current-password"
             />
+
+            {/* Remember Me Checkbox */}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+
+            {/* Submit button */}
             <Button
               type="submit"
               fullWidth
@@ -77,18 +85,18 @@ function Home() {
             >
               Sign In
             </Button>
+
+            {/* container holding sign up link */}
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+
+              {/* Linking to Sign Up Page */}
               <Grid item>
                 <Link href="#" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
+
           </Box>
         </Box>
       </Container>
