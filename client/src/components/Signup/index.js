@@ -12,8 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link as ReactLink } from 'react-router-dom';
-import { emailRegEx } from "../../utils/helpers"
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
+// import { emailRegEx } from "../../utils/helpers"
+
 
 
 function Copyright(props) {
@@ -31,15 +32,24 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp() {
-  const handleSubmit = (event) => {
+
+export default function SignUp(props) {
+  const navigate = useNavigate();
+  const handleSubmit = (event) => 
+  {//Navigation to dashboard //
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
+    const fields = {
       email: data.get('email'),
-      password: data.get('password'),
-    });
+      password: data.get('password')
+    }
+    console.log(fields);
+    
+    if (fields.email && fields.password) {
+      navigate("/dashboard")
+     
+
+    }
   };
 
   return (
@@ -87,14 +97,12 @@ export default function SignUp() {
                 <TextField
                   required
                   error = {false}
-                  helperText="Got to be an email bro"
                   fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
                   type="email"
-                  pattern={emailRegEx}
                 />
               </Grid>
               <Grid item xs={12}>
