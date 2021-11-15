@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import { Link as ReactLink, } from 'react-router-dom';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -17,15 +17,27 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-function Home() {
+function Home(props) {
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const fields = {
       email: data.get('email'),
-      password: data.get('password'),
-    });
+      password: data.get('password')
+    }
+    console.log(fields);
+
+    if (fields.email && fields.password) {
+      navigate("/dashboard")
+     
   };
+
+ 
+  
+      
+    };
+  
 
   return (
     <ThemeProvider theme={theme}>
