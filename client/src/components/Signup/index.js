@@ -13,32 +13,38 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../../utils/mutations';
 // import { emailRegEx } from "../../utils/helpers"
 
-
-
-
 const theme = createTheme();
-
 
 export default function SignUp(props)
 {
   const navigate = useNavigate();
-  const handleSubmit = (event) => 
+  const handleSubmit = async event => 
   {//Navigation to dashboard //
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const fields = {
-      email: data.get('email'),
-      password: data.get('password')
+      username: data.get('userName'),
+      password: data.get('password'),
+      email: data.get('email')
+    }
+
+    try
+    {
+      const [addUser, { userData }] = await useMutation(ADD_USER);
+      addUser({ variables: { fields } });
+    } catch (error)
+    {
+      console.log('Me No Working');
     }
     console.log(fields);
 
     if (fields.email && fields.password)
     {
       navigate("/dashboard")
-
-
     }
   };
 
@@ -65,7 +71,7 @@ export default function SignUp(props)
                   name="userName"
                   required
                   fullWidth
-                  id="Name"
+                  id="username"
                   label="Username"
                   autoFocus
                 />
