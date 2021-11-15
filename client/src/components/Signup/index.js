@@ -21,7 +21,8 @@ import { Link as ReactLink, useNavigate } from 'react-router-dom';
 const theme = createTheme();
 
 
-export default function SignUp(props) {
+export default function SignUp(props)
+{
   const navigate = useNavigate();
   const handleSubmit = (event) => 
   {//Navigation to dashboard //
@@ -32,10 +33,11 @@ export default function SignUp(props) {
       password: data.get('password')
     }
     console.log(fields);
-    
-    if (fields.email && fields.password) {
+
+    if (fields.email && fields.password)
+    {
       navigate("/dashboard")
-     
+
 
     }
   };
@@ -55,7 +57,7 @@ export default function SignUp(props) {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -72,7 +74,7 @@ export default function SignUp(props) {
               <Grid item xs={12}>
                 <TextField
                   required
-                  error = {false}
+                  error={false}
                   fullWidth
                   id="email"
                   label="Email Address"
