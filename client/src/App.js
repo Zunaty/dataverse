@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 // import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
+import SignUp from './components/Signup';
 
 const client = new ApolloClient({
   uri: '/graphql',
@@ -17,6 +18,7 @@ const client = new ApolloClient({
 });
 
 function App() {
+ 
   return (
     <ApolloProvider client={client}>
       
@@ -28,7 +30,7 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/signup" element={<Home />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route element="404 Page Not Found" />
             </Routes>
@@ -40,7 +42,8 @@ function App() {
         </div>
       
     </ApolloProvider>
-  );
+  )
+  //);
 }
 
 export default App;
