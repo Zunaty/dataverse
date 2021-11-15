@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,7 +22,11 @@ const theme = createTheme();
 
 export default function SignUp(props)
 {
+  const [formState, setFormState] = useState({username: '', password: '', email: ''});
+  const [addUser] = useMutation(ADD_USER);
   const navigate = useNavigate();
+
+  
   const handleSubmit = async event => 
   {//Navigation to dashboard //
     event.preventDefault();
@@ -31,21 +36,32 @@ export default function SignUp(props)
       password: data.get('password'),
       email: data.get('email')
     }
-
-    try
-    {
-      const [addUser, { userData }] = await useMutation(ADD_USER);
-      addUser({ variables: { fields } });
-    } catch (error)
-    {
-      console.log('Me No Working');
-    }
+    
     console.log(fields);
 
+    const mutationResponse = await addUser({
+      variables: {
+        username: data.get('userName'),
+      password: data.get('password'),
+      email: data.get('email')
+      }
+    });
+
+    console.log(mutationResponse);
+
+    
     if (fields.email && fields.password)
     {
       navigate("/dashboard")
     }
+  };
+  
+  const handleChange = event => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value
+    });
   };
 
   return (
@@ -71,9 +87,10 @@ export default function SignUp(props)
                   name="userName"
                   required
                   fullWidth
-                  id="username"
+                  id="Name"
                   label="Username"
                   autoFocus
+                  onChange={handleChange}
                 />
               </Grid>
 
@@ -87,6 +104,7 @@ export default function SignUp(props)
                   name="email"
                   autoComplete="email"
                   type="email"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -98,6 +116,7 @@ export default function SignUp(props)
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
