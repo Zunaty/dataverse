@@ -33,7 +33,7 @@ const itemSchema = new Schema(
             getters: true
         }
     }
-)
+);
 
 const listSchema = new Schema(
     {
