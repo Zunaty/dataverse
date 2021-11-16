@@ -68,7 +68,10 @@ function Nav() {
       ) : (
         <>
           <MenuItem >
-            <Link to="/">Login</Link>
+            <Link to="/login">Login</Link>
+          </MenuItem>
+          <MenuItem >
+            <Link to="/Signup">Signup</Link>
           </MenuItem>
         </>
       )}
@@ -119,7 +122,7 @@ function Nav() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            DataVerse
+            <Link to="/">DataVerse</Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />

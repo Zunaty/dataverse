@@ -2,15 +2,15 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloClient, InMemoryCache } from "@apollo/client";
+import Auth from './utils/auth';
 
-// importing our components
+// importing our components / pages
 import Nav from './components/Nav';
 import Footer from './components/Footer';
-// Home is the Login Form
 import Home from './components/Home';
-// import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
-import SignUp from './components/Signup';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const client = new ApolloClient({
   uri: '/graphql',
@@ -25,33 +25,43 @@ const client = new ApolloClient({
   },
 });
 
+const loggedIn = Auth.loggedIn();
+
 function App() {
- 
+
   return (
     <ApolloProvider client={client}>
-      
-        <div>
-          <header>
-            <Nav />
-          </header>
+      <div>
+        <header>
+          <Nav />
+        </header>
 
-          <main>
+        <main>
+        {loggedIn ? (
+          <>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/" element={<Dashboard />} />
               <Route element="404 Page Not Found" />
             </Routes>
-          </main>
+          </>
+        ) : (
+          <>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route element="404 Page Not Found" />
+            </Routes>
+          </>
+        )}
+        </main>
 
-          <footer>
-            <Footer />
-          </footer>
-        </div>
-      
+        <footer>
+          <Footer />
+        </footer>
+      </div>
     </ApolloProvider>
   )
-  //);
-}
+};
 
 export default App;
