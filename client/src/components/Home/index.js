@@ -76,7 +76,7 @@ function Home() {
         >
           {/* Sign In Title Text */}
           <Typography component="h1" variant="h5">
-            Sign in
+            Login
           </Typography>
 
           {/* Error popup */}
