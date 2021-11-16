@@ -1,22 +1,17 @@
 import * as React from 'react';
 import { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../../utils/mutations';
-// import { emailRegEx } from "../../utils/helpers"
+import Auth from "../../utils/auth";
 
 const theme = createTheme();
 
@@ -25,7 +20,6 @@ export default function SignUp(props)
   const [formState, setFormState] = useState({ username: '', password: '', email: '' });
   const [addUser] = useMutation(ADD_USER);
   const navigate = useNavigate();
-
 
   const handleSubmit = async event => 
   {//Navigation to dashboard //
@@ -37,8 +31,6 @@ export default function SignUp(props)
       email: data.get('email')
     }
 
-    // console.log(fields);
-
     const mutationResponse = await addUser({
       variables: {
         username: data.get('userName'),
@@ -47,8 +39,8 @@ export default function SignUp(props)
       }
     });
 
-    console.log(mutationResponse);
-
+    const token = mutationResponse.data.addUser.token;
+    Auth.login(token);
 
     if (fields.email && fields.password)
     {
@@ -77,11 +69,16 @@ export default function SignUp(props)
             alignItems: 'center',
           }}
         >
+          {/* Sign Up title */}
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign-up
           </Typography>
+
+          {/* Sign Up Form */}
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
+
+              {/* Username Field */}
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
@@ -95,6 +92,7 @@ export default function SignUp(props)
                 />
               </Grid>
 
+              {/* Email Field */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -108,6 +106,8 @@ export default function SignUp(props)
                   onChange={handleChange}
                 />
               </Grid>
+
+              {/* Password Field */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -121,6 +121,8 @@ export default function SignUp(props)
                 />
               </Grid>
             </Grid>
+
+            {/* Submit button */}
             <Button
               type="submit"
               fullWidth
@@ -129,8 +131,11 @@ export default function SignUp(props)
             >
               Sign Up
             </Button>
+
             <Grid container justifyContent="flex-end">
               <Grid item>
+
+                {/* Link to login */}
                 <ReactLink to="/">
                   Already have an account? Sign in
                 </ReactLink>

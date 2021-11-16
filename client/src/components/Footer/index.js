@@ -14,7 +14,6 @@ function Footer() {
       }}
     >
       <CssBaseline />
-      
       <Box
         component="footer"
         sx={{
@@ -29,9 +28,9 @@ function Footer() {
       >
         <Container maxWidth="sm">
           <Typography variant="body1">
-            This app was created with ReactJS and MUI
+            This app was created with 
+            ReactJS and MUI
           </Typography>
-          
         </Container>
       </Box>
     </Box>
