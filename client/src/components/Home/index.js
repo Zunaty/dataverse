@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import { Link as ReactLink, useNavigate} from 'react-router-dom';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -55,6 +55,7 @@ function Home()
       [name]: value
     });
   };
+  
 
   return (
     <ThemeProvider theme={theme}>
