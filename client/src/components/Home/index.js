@@ -2,28 +2,57 @@
 // Sign in
 
 import * as React from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import { Link as ReactLink, } from 'react-router-dom';
+import { Link as ReactLink, useNavigate} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../../utils/mutations';
 
 const theme = createTheme();
 
-function Home() {
-  const handleSubmit = (event) => {
+function Home()
+{
+  const [formState, setFormState] = useState({ password: '', email: '' });
+  const [userLogin] = useMutation(LOGIN_USER);
+  const navigate = useNavigate();
+  const handleSubmit = async event =>
+  {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+
+    try
+    {
+      //if login works, mutation response is the token object.
+      const mutationResponse = await userLogin({
+        variables: {
+          email: data.get('email'),
+          password: data.get('password')
+        }
+      });
+      console.log(mutationResponse);
+      navigate("/dashboard");
+    } catch (error)
+    {
+      console.log("Incorrect user name and/or password")
+    }
+  };
+
+  const handleChange = event =>
+  {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value
     });
   };
 
@@ -57,6 +86,7 @@ function Home() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
             />
 
             {/* Password Field */}
@@ -69,6 +99,7 @@ function Home() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handleChange}
             />
 
             {/* Remember Me Checkbox */}
