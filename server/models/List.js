@@ -13,7 +13,7 @@ const itemSchema = new Schema(
             trim: true
         },
         itemImg: {
-            type: Number
+            type: String
         },
         itemQuantity: {
             type: Number,
