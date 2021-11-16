@@ -47,12 +47,12 @@ const resolvers = {
         //       email
         //       lists {
         //         _id
+        //         username
         //         listName
         //         createdAt
-        //         itemImg
-        //         itemName
-        //         itemPrice
-        //         itemQuantity
+        //         items {
+        //           _id
+        //         }
         //       }
         //     }
         //   }
