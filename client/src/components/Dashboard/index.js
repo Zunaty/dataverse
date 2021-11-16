@@ -128,7 +128,7 @@ const rows = [
     createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
 ];
 
-export function Dashboard()
+export default function Dashboard()
 {
     return (
         <TableContainer component={Paper}>
@@ -153,4 +153,4 @@ export function Dashboard()
     );
 }
 
-export default Dashboard;
+//export default Dashboard;
