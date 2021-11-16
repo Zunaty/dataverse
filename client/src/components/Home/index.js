@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import { Link as ReactLink, useNavigate} from 'react-router-dom';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -56,84 +56,86 @@ function Home()
     });
   };
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          {/* Sign In Title Text */}
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
 
-          {/* Form box */}
-          <Box component="form" onSubmit={handleSubmit} Validate sx={{ mt: 1 }}>
 
-            {/* Email Field */}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={handleChange}
-            />
+return (
+  <ThemeProvider theme={theme}>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        {/* Sign In Title Text */}
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
 
-            {/* Password Field */}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleChange}
-            />
+        {/* Form box */}
+        <Box component="form" onSubmit={handleSubmit} Validate sx={{ mt: 1 }}>
 
-            {/* Remember Me Checkbox */}
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+          {/* Email Field */}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onChange={handleChange}
+          />
 
-            {/* Submit button */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
+          {/* Password Field */}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={handleChange}
+          />
 
-            {/* container holding sign up link */}
-            <Grid container>
+          {/* Remember Me Checkbox */}
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
 
-              {/* Linking to Sign Up Page */}
-              <Grid item>
-                <ReactLink to="/signup">
-                  {"Don't have an account? Sign Up"}
-                </ReactLink>
-              </Grid>
+          {/* Submit button */}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+
+          {/* container holding sign up link */}
+          <Grid container>
+
+            {/* Linking to Sign Up Page */}
+            <Grid item>
+              <ReactLink to="/signup">
+                {"Don't have an account? Sign Up"}
+              </ReactLink>
             </Grid>
+          </Grid>
 
-          </Box>
         </Box>
-      </Container>
-    </ThemeProvider>
-  )
+      </Box>
+    </Container>
+  </ThemeProvider>
+)
 };
 
 export default Home;
