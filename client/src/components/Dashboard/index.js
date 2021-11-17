@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Input from '../Box/index.js'
 
 function createData(name, calories, fat, carbs, protein, price)
 {
@@ -44,6 +45,7 @@ function Row(props)
     const [open, setOpen] = React.useState(false);
 
     return (
+        <div>
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 <TableCell>
@@ -74,7 +76,7 @@ function Row(props)
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Date</TableCell>
-                                        <TableCell>Customer</TableCell>
+                                        <TableCell>User</TableCell>
                                         <TableCell align="right">Amount</TableCell>
                                         <TableCell align="right">Total price ($)</TableCell>
                                     </TableRow>
@@ -99,6 +101,9 @@ function Row(props)
                 </TableCell>
             </TableRow>
         </React.Fragment>
+        <Input/>
+        </div>
+
     );
 }
 
@@ -121,11 +126,11 @@ Row.propTypes = {
 };
 
 const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-    createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-    createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-    createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
+    createData('Office Supplies', 159, 6.0, 24, 4.0, 333.99),
+    createData('Shopping Spree', 237, 9.0, 37, 4.3, 214.99),
+    createData('Raw Materials', 262, 16.0, 24, 6.0, 53.79),
+    createData('Work in Progress', 305, 3.7, 67, 4.3, 62.5),
+    createData('Safety Stock', 356, 16.0, 49, 3.9, 91.5),
 ];
 
 export default function Dashboard()
@@ -136,11 +141,11 @@ export default function Dashboard()
                 <TableHead>
                     <TableRow>
                         <TableCell />
-                        <TableCell>Dessert (100g serving)</TableCell>
-                        <TableCell align="right">Calories</TableCell>
-                        <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                        <TableCell>Based on Stage</TableCell>
+                        <TableCell align="right">Based on Purpose</TableCell>
+                        <TableCell align="right">Based on Material</TableCell>
+                        <TableCell align="right">Personal/Consumer</TableCell>
+                        <TableCell align="right">Components</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -152,5 +157,3 @@ export default function Dashboard()
         </TableContainer>
     );
 }
-
-//export default Dashboard;
