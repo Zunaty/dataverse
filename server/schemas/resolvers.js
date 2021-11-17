@@ -29,8 +29,8 @@ const resolvers = {
         },
 
         // query for lists
-        lists: async (parent, { username }) => {
-            const params = username ? { username } : {};
+        lists: async (parent, { _id }) => {
+            const params = _id ? { _id } : {};
             return List.find(params).sort({ createdAt: -1 });
         }
     },
@@ -39,7 +39,7 @@ const resolvers = {
         // mutation for addUser
         addUser: async (parent, args) => {
             const user = await User.create(args);
-            const token = await signToken(user);
+            const token = signToken(user);
 
             return { token, user };
         },
@@ -78,35 +78,20 @@ const resolvers = {
 
             throw new AuthenticationError('You need to be logged in!');
         },
-        // addList mutation
-        // addItem: async (parent, args, context) => {
-        //     if (context.user) {
-        //         const item = await Item.create({ ...args, username: context.user.username });
+        removeList: async (parent, args, context) => {
+            if (context.user) {
+                const userUpdate = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { lists: args._id } },
+                    { new: true }
+                );
+                const deletedList = await List.findByIdAndDelete({ _id: args._id });
+                
+                return userUpdate;
+            }
 
-        //         await User.findByIdAndUpdate(
-        //             { _id: context.user._id },
-        //             { $push: { lists: list._id } },
-        //             { new: true }
-        //         );
-
-        //         return list;
-        //     }
-
-        //     throw new AuthenticationError('You need to be logged in!');
-        // },
-        // removeList: async (parent, args, context) => {
-        //     if (context.user) {
-        //         const userUpdate = await User.findByIdAndUpdate(
-        //             { _id: context.user._id },
-        //             { $pull: { lists: { Id: args._id } } },
-        //             { new: true }
-        //         );
-
-        //         return userUpdate;
-        //     }
-
-        //     throw new AuthenticationError("Log in to remove list");
-        // }
+            throw new AuthenticationError("Log in to remove list");
+        }
     }
 };
 

@@ -38,14 +38,14 @@ type User {
   type Query {
     me: User
     user(username: String): [User]
-    lists(username: String): [List]
+    lists(_id: ID): [List]
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addList(listName: String!): List
-    removeList(id: String!): Auth
+    removeList(_id: ID!): List
   }
 `;
 
