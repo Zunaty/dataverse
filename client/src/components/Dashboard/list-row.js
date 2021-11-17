@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Typography, Table, TableRow, TableHead, TableCell, Collapse, IconButton, Box, TableBody} from '@mui/material';
+import { Typography, Table, TableRow, TableHead, TableCell, Collapse, IconButton, Box, TableBody, Button} from '@mui/material';
 import ItemRow from './item-row';
+import {startCase} from "lodash"
 
 export default function ListTableRow({name, onDelete, items}){
     const [open, setOpen] = useState(false)
@@ -32,15 +33,15 @@ export default function ListTableRow({name, onDelete, items}){
                     {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         </IconButton>
                     </TableCell>
-                <TableCell>{name}</TableCell>
-                <TableCell onClick={onDelete}>Delete</TableCell>
+                <TableCell>{startCase(name)}</TableCell>
+                <TableCell onClick={onDelete}><Button onClick={onDelete}>Delete</Button></TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             <Typography variant="h6" gutterBottom component="div">
-                               {name}
+                               {startCase(name)}
                            </Typography>
                            <Table size="small" aria-label="purchases">
                                <TableHead>
