@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Typography, Table, TableRow, TableHead, TableCell, Collapse, IconButton, Box, TableBody, Button} from '@mui/material';
+import { Typography, Table, TableRow, TableHead, TableCell, Collapse, IconButton, Box, TableBody, Button, TextField} from '@mui/material';
 import ItemRow from './item-row';
 import {startCase} from "lodash"
 
@@ -19,6 +19,42 @@ export default function ListTableRow({name, onDelete, items}){
             onDelete={()=>{}}
             /> 
     })
+
+    itemRows.push(
+        <TableRow>
+            <TableCell colSpan={6}>
+                <Box
+                    component="form"
+                    sx={{'& > :not(style)': { m: 1, width: '25ch' },}}
+                    autoComplete="off"
+                    >
+                    <TextField
+                        required 
+                        label="Item Name"
+                        size="small"
+                    />
+                     <TextField
+                        required 
+                        label="Description"
+                        size="small"
+                    />
+                     <TextField
+                        required
+                        type="number" 
+                        label="Qty"
+                        size="small"
+                    />
+                     <TextField
+                        required 
+                        type="number"
+                        label="Price"
+                        size="small"
+                    />
+                    <Button>Add</Button>
+                </Box>
+            </TableCell>
+        </TableRow>
+    )
 
 
     return (

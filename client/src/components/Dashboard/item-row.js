@@ -1,6 +1,6 @@
 import React from "react"
 import {startCase} from "lodash"
-import { Typography, Table, TableRow, TableHead, TableCell, Collapse, IconButton, Box, TableBody, Button} from '@mui/material';
+import { Typography, TableRow, TableCell, Button} from '@mui/material';
 
 export default function ItemRow({name, description, qty, price, onEdit, onDelete}){
 
