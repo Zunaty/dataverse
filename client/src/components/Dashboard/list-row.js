@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Typography, Table, TableRow, TableHead, TableCell, Collapse, IconButton, Box, TableBody, Button, TextField} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Typography, Table, TableRow, TableHead, TableCell, Collapse, Box, TableBody, Button, TextField} from '@mui/material';
 import ItemRow from './item-row';
 import {startCase} from "lodash"
 
@@ -50,7 +52,7 @@ export default function ListTableRow({name, onDelete, items}){
                         label="Price"
                         size="small"
                     />
-                    <Button>Add</Button>
+                    <Button variant="contained">Add</Button>
                 </Box>
             </TableCell>
         </TableRow>
@@ -69,8 +71,18 @@ export default function ListTableRow({name, onDelete, items}){
                     {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         </IconButton>
                     </TableCell>
-                <TableCell>{startCase(name)}</TableCell>
-                <TableCell onClick={onDelete}><Button onClick={onDelete}>Delete</Button></TableCell>
+                <TableCell>
+                    <Typography variant="h6" component="div">
+                        {startCase(name)}
+                    </Typography>
+                </TableCell>
+
+                {/* Delete button for list */}
+                <TableCell onClick={onDelete}>
+                    <IconButton onClick={onDelete}>
+                        <DeleteIcon />
+                    </IconButton>
+                </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
