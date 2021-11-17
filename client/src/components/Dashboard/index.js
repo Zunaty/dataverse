@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import ListTableRow from "./table-row"
+import ListTableRow from "./list-row"
 
 
 // function createData(name, calories, fat, carbs, protein, price)
@@ -149,7 +149,7 @@ const database = [
 ] 
 export default function Dashboard(){
     const listRows = database.map((el, i) => {
-        return <ListTableRow key={i} name={el.name} onDelete={()=>{}}/>
+        return <ListTableRow key={i} name={el.name} onDelete={()=>{}} items={el.items}/>
     })
 
 
