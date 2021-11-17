@@ -18,7 +18,7 @@ type Item {
   itemDescription: String
   itemImg: String
   itemQuantity: Int
-  itemPrice: Int
+  itemPrice: Float
   createdAt: String
 }
 

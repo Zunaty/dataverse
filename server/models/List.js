@@ -24,8 +24,7 @@ const listSchema = new Schema(
     {
         toJSON: {
             getters: true
-        },
-        id: false
+        }
     }
 );
 

@@ -58,7 +58,7 @@ db.once('open', async () => {
 
         await List.updateOne(
             { _id: listId },
-            { $push: { lists: { itemName, itemDescription, itemImg, itemQuantity, itemPrice, username } } },
+            { $push: { items: { itemName, itemDescription, itemImg, itemQuantity, itemPrice, username } } },
             { runValidators: true }
         );
     }
