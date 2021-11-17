@@ -13,9 +13,12 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { useQuery } from '@apollo/client';
+import { QUERY_ME } from '../../utils/queries';
+import Auth from '../../utils/auth';
 
-function createData(name, calories, fat, carbs, protein, price)
-{
+
+function createData(name, calories, fat, carbs, protein, price) {
     return {
         name,
         calories,
@@ -38,8 +41,11 @@ function createData(name, calories, fat, carbs, protein, price)
     };
 }
 
-function Row(props)
-{
+function Row(props) {
+    // const userData = Auth.getProfile();
+//     const {loading, error, data } = useQuery(QUERY_ME);
+//    console.log(data.me.map);
+
     const { row } = props;
     const [open, setOpen] = React.useState(false);
 
@@ -128,8 +134,7 @@ const rows = [
     createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
 ];
 
-export default function Dashboard()
-{
+export default function Dashboard() {
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
