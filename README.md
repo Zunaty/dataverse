@@ -2,6 +2,15 @@
 
 A scalable app used for personal to small business inventories.
 
+## Technologies Used
+
+- ReactJS
+- MUI
+- Node.js
+- Express.js
+- Apollo / Graphql
+- Mongoose
+
 ## Future Features
 
 - Searching for items, lists, and users.
