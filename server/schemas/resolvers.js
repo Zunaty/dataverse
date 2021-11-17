@@ -86,12 +86,27 @@ const resolvers = {
                     { new: true }
                 );
                 const deletedList = await List.findByIdAndDelete({ _id: args._id });
-                
+
                 return userUpdate;
             }
 
             throw new AuthenticationError("Log in to remove list");
-        }
+        },
+        // addItem mutation
+        addItem: async (parent, args, context) => {
+            if (context.user) {
+
+                const updatedList = await List.findByIdAndUpdate(
+                    { _id: args.listId },
+                    { $push: { items: { ...args } } },
+                    { new: true, runValidators: true }
+                );
+
+                return updatedList;
+            }
+
+            throw new AuthenticationError('You need to be logged in!');
+        },
     }
 };
 

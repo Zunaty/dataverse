@@ -46,6 +46,7 @@ type User {
     login(email: String!, password: String!): Auth
     addList(listName: String!): List
     removeList(_id: ID!): User
+    addItem(listId: ID!, itemName: String!, itemDescription: String, itemImg: String, itemQuantity: Int!, itemPrice: Float): List
   }
 `;
 
