@@ -10,8 +10,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Button from '@mui/material/Button';
+
 import Auth from '../../utils/auth';
-import { Link } from 'react-router-dom';
 
 
 function Nav() {
@@ -68,10 +69,10 @@ function Nav() {
       ) : (
         <>
           <MenuItem >
-            <Link to="/login">Login</Link>
+            <Button variant="outlined" href="/login">Login</Button>
           </MenuItem>
           <MenuItem >
-            <Link to="/Signup">Signup</Link>
+            <Button variant="outlined" href="/signup">Signup</Button>
           </MenuItem>
         </>
       )}
@@ -117,12 +118,12 @@ function Nav() {
         <Toolbar>
           {/* App Title */}
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <Link to="/">DataVerse</Link>
+            <Button href="/" variant="contained">DataVerse</Button>
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
