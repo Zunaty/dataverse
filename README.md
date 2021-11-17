@@ -15,6 +15,8 @@ A scalable app used for personal to small business inventories.
 
 - Searching for items, lists, and users.
 - Account Page
+- The ability to add other users to your lists
+- Users added to your list would be able to add and manage a list
 
 ## Team Memebers and Contributers
 
