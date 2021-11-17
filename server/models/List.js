@@ -4,11 +4,6 @@ const dateFormat = require('../utils/dateFormat');
 
 const listSchema = new Schema(
     {
-        username: {
-            type: String,
-            required: true,
-            trim: true
-        },
         listName: {
             type: String,
             required: true,

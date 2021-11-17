@@ -4,28 +4,7 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        // query for me query
-
-        // {
-        //     me {
-        //       _id
-        //       username
-        //       email
-        //       lists {
-        //         _id
-        //         listName
-        //         createdAt
-        //         itemImg
-        //         itemName
-        //         itemPrice
-        //         itemQuantity
-        //       }
-        //     }
-        //   }
-
-        // header 
-        // Authorization token 
-
+        // me query
         me: async (parent, args, context) => {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
@@ -39,30 +18,6 @@ const resolvers = {
         },
 
         // query for user
-
-        // query user($username: String) {
-        //     user(username: $username) {
-        //       _id
-        //       username
-        //       email
-        //       lists {
-        //         _id
-        //         username
-        //         listName
-        //         createdAt
-        //         items {
-        //           _id
-        //         }
-        //       }
-        //     }
-        //   }
-
-        // variable for user query with varaible returns single user without all users
-
-        // {
-        //     "username": "sean2test"
-        //   }
-
         user: async (parent, { username }) => {
             const params = username ? { username } : {};
             const user = await User.find(params)
@@ -74,27 +29,6 @@ const resolvers = {
         },
 
         // query for lists
-
-        // query($username: String) {
-        //     lists (username: $username) {
-        //       username
-        //       _id
-        //       listName
-        //       createdAt
-        //       itemName
-        //       itemDescription
-        //       itemImg
-        //       itemQuantity
-        //       itemPrice
-        //     }
-        //     }
-        //   }
-
-        // variable for lists no variable all lists with variable all lists by this user
-        // {
-        //     "username": "username"
-        // }
-
         lists: async (parent, { username }) => {
             const params = username ? { username } : {};
             return List.find(params).sort({ createdAt: -1 });
@@ -103,24 +37,6 @@ const resolvers = {
 
     Mutation: {
         // mutation for addUser
-
-        // mutation addUser($username: String!, $password: String!, $email: String!) {
-        //     addUser(username: $username, password: $password, email: $email) {
-        //       token
-        //       user {
-        //         _id
-        //       }
-        //     }
-        //   }
-
-        // variables accepted by addUser mutation
-
-        // {
-        // "username": "sean3test",
-        // "password": "password",
-        //  "email": "sean3test@email.com"
-        // }
-
         addUser: async (parent, args) => {
             const user = await User.create(args);
             const token = await signToken(user);
@@ -129,20 +45,6 @@ const resolvers = {
         },
 
         // mutation for login
-        // mutation login($email: String!, $password: String!) {
-        //     login(email: $email, password: $password) {
-        //       token
-        //       user {
-        //         _id
-        //       }
-        //     }
-        //   }
-
-        // variables for login
-        // {
-        //     "password": "password",
-        //     "email": "sean3test@email.com"
-        //   }
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
 
@@ -161,41 +63,14 @@ const resolvers = {
         },
 
         // addList mutation
-
-        // mutation($listName: String!, $itemName: String!, $itemDescription: String, $itemImg: String, $itemQuantity: Int!, $itemPrice: String) {
-        //     addList(listName: $listName, itemName: $itemName, itemDescription: $itemDescription, itemImg: $itemImg, itemQuantity: $itemQuantity, itemPrice: $itemPrice) {
-        //       username
-        //       _id
-        //       listName
-        //       createdAt
-        //       itemName
-        //       itemDescription
-        //       itemImg
-        //       itemQuantity
-        //       itemPrice
-
-        //     }
-        //   }
-
-        // variables and header
-        // Authorization token
-
-        // {
-        //     "listName": "testList2",
-        //     "itemName": "testName2",
-        //     "itemDescription": "test2 description",
-        //     "itemImg": "imgage/link/photo.png",
-        //     "itemQuantity": 234,
-        //     "itemPrice": "270.34"
-        // }
         addList: async (parent, args, context) => {
             if (context.user) {
                 const list = await List.create({ ...args, username: context.user.username });
 
                 await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    { $push: { lists: list._id } },
-                    { new: true }
+                    { $addToSet: { lists: list._id } },
+                    { new: true, runValidators: true }
                 );
 
                 return list;
@@ -203,6 +78,22 @@ const resolvers = {
 
             throw new AuthenticationError('You need to be logged in!');
         },
+        // addList mutation
+        // addItem: async (parent, args, context) => {
+        //     if (context.user) {
+        //         const item = await Item.create({ ...args, username: context.user.username });
+
+        //         await User.findByIdAndUpdate(
+        //             { _id: context.user._id },
+        //             { $push: { lists: list._id } },
+        //             { new: true }
+        //         );
+
+        //         return list;
+        //     }
+
+        //     throw new AuthenticationError('You need to be logged in!');
+        // },
         // removeList: async (parent, args, context) => {
         //     if (context.user) {
         //         const userUpdate = await User.findByIdAndUpdate(
