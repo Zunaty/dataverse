@@ -113,14 +113,16 @@ const resolvers = {
         },
         removeItem: async (parent, args, context) => {
             if (context.user) {
-                const pulledList = await List.findByIdAndUpdate(
+                await List.findByIdAndUpdate(
                     { _id: args.listId },
-                    { $pull: { items: { ...args } } },
-                    { new: true }
+                    { $pull: { items: args._id } },
+                    { new: true, runValidators: true }
                 );
-                // const deletedItem = await List.Items.findByIdAndDelete({ _id: args.itemId });
+                await Item.findByIdAndDelete({ _id: args._id });
+                const updatedList = List.findOne({ _id: args.listId })
+                    .populate('items');
 
-                return pulledList;
+                return updatedList;
             }
 
             throw new AuthenticationError("Log in to remove list");

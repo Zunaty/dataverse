@@ -46,7 +46,7 @@ type User {
     addList(listName: String!): List
     removeList(_id: ID!): User
     addItem(listId: ID!, itemName: String!, itemDescription: String, itemImg: String, itemQuantity: Int!, itemPrice: Float): Item
-    removeItem(listId: ID!, _id: ID!): Item
+    removeItem(listId: ID!, _id: ID!): List
   }
 `;
 
