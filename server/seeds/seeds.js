@@ -1,10 +1,11 @@
 const faker = require('faker');
 
 const db = require('../config/connection');
-const { List, User } = require('../models');
+const { List, Item, User } = require('../models');
 const { listeners } = require('../models/List');
 
 db.once('open', async () => {
+    await Item.deleteMany({});
     await List.deleteMany({});
     await User.deleteMany({});
 
@@ -42,6 +43,7 @@ db.once('open', async () => {
         createdLists.push(createdList);
     }
 
+    let createdItems = [];
     // create items
     for (let i = 0; i < 100; i += 1) {
         const itemName = faker.commerce.productName();
@@ -56,11 +58,14 @@ db.once('open', async () => {
         const randomListIndex = Math.floor(Math.random() * createdLists.length);
         const { _id: listId } = createdLists[randomListIndex];
 
-        await List.updateOne(
+        const createdItem = await Item.create({ itemName, itemDescription, itemImg, itemQuantity, itemPrice });
+        const updatedList = await List.updateOne(
             { _id: listId },
-            { $push: { items: { itemName, itemDescription, itemImg, itemQuantity, itemPrice, username } } },
+            { $push: { items: createdItem._id } },
             { runValidators: true }
         );
+
+        createdItems.push(createdItem);
     }
 
 

@@ -31,7 +31,10 @@ const resolvers = {
         // query for lists
         lists: async (parent, { _id }) => {
             const params = _id ? { _id } : {};
-            return List.find(params).sort({ createdAt: -1 });
+            const list = await List.find(params).sort({ createdAt: -1 })
+            .populate('items');
+
+            return list;
         }
     },
 
@@ -98,7 +101,7 @@ const resolvers = {
 
                 const updatedList = await List.findByIdAndUpdate(
                     { _id: args.listId },
-                    { $push: { items: { ...args } } },
+                    { $addToSet: { items: { ...args } } },
                     { new: true, runValidators: true }
                 );
 
@@ -107,6 +110,20 @@ const resolvers = {
 
             throw new AuthenticationError('You need to be logged in!');
         },
+        removeItem: async (parent, args, context) => {
+            if (context.user) {
+                const pulledList = await List.findByIdAndUpdate(
+                    { _id: args.listId },
+                    { $pull: { items: { ...args } } },
+                    { new: true }
+                );
+                // const deletedItem = await List.Items.findByIdAndDelete({ _id: args.itemId });
+
+                return pulledList;
+            }
+
+            throw new AuthenticationError("Log in to remove list");
+        }
     }
 };
 

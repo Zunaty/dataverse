@@ -3,15 +3,6 @@ const { gql } = require('apollo-server-express');
 
 // create our typeDefs
 const typeDefs = gql`
-
-type List {
-  _id: ID
-  listName: String
-  createdAt: String
-  itemsCount: Int
-  items: [Item]
-}
-
 type Item {
   _id: ID
   itemName: String
@@ -20,6 +11,14 @@ type Item {
   itemQuantity: Int
   itemPrice: Float
   createdAt: String
+}
+
+type List {
+  _id: ID
+  listName: String
+  createdAt: String
+  itemsCount: Int
+  items: [Item]
 }
 
 type User {
@@ -46,7 +45,8 @@ type User {
     login(email: String!, password: String!): Auth
     addList(listName: String!): List
     removeList(_id: ID!): User
-    addItem(listId: ID!, itemName: String!, itemDescription: String, itemImg: String, itemQuantity: Int!, itemPrice: Float): List
+    addItem(listId: ID!, itemName: String!, itemDescription: String, itemImg: String, itemQuantity: Int!, itemPrice: Float): Item
+    removeItem(listId: ID!, _id: ID!): Item
   }
 `;
 
