@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, List } = require('../models');
+const { User, List, Item } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -32,7 +32,7 @@ const resolvers = {
         lists: async (parent, { _id }) => {
             const params = _id ? { _id } : {};
             const list = await List.find(params).sort({ createdAt: -1 })
-            .populate('items');
+                .populate('items');
 
             return list;
         }
@@ -98,14 +98,15 @@ const resolvers = {
         // addItem mutation
         addItem: async (parent, args, context) => {
             if (context.user) {
+                const item = await Item.create({ ...args });
 
                 const updatedList = await List.findByIdAndUpdate(
                     { _id: args.listId },
-                    { $addToSet: { items: { ...args } } },
+                    { $addToSet: { items: item._id } },
                     { new: true, runValidators: true }
                 );
 
-                return updatedList;
+                return item;
             }
 
             throw new AuthenticationError('You need to be logged in!');
