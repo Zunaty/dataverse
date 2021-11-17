@@ -45,7 +45,7 @@ type User {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addList(listName: String!): List
-    removeList(_id: ID!): List
+    removeList(_id: ID!): User
   }
 `;
 
