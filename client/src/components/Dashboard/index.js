@@ -14,7 +14,7 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ListTableRow from "./list-row"
-import { Container } from '@mui/material';
+import { Grid, TextField, Button } from '@mui/material';
 
 
 const database = [
@@ -40,7 +40,35 @@ export default function Dashboard(){
 
 
     return (
-
+        <>
+         {/* Working on submission for title box  */}
+        {/* <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    <TableRow><TableCell/><TableCell/><TableCell/><TableCell/></TableRow>
+                </TableHead>
+                <TableBody>
+                    <Box component="form"sx={{'& > :not(style)': { m: 1, width: '25ch' },}}autoComplete="off">
+                        <TableRow>
+                            <TableCell spanCol={3}>
+                                <TextField type="input"/>
+                            </TableCell>
+                            <TableCell><Button onClick={()=>{}}>Add</Button></TableCell>
+                        </TableRow>
+                    </Box>
+                </TableBody>
+            </Table>
+        </TableContainer> */}
+        {/* <Box component="form">
+            <Grid container spacing={2}>
+                <Grid item xs={6} md={8}>
+                    <TextField type="input"/>
+                </Grid>
+                <Grid item xs={6} md={8}>
+                    <Button>Add</Button>
+                </Grid>
+            </Grid>
+        </Box> */}
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
                 <TableHead>
@@ -55,5 +83,6 @@ export default function Dashboard(){
                 </TableBody>
             </Table>
         </TableContainer>
+        </>
     );
 }
