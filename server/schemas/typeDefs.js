@@ -9,6 +9,7 @@ type List {
   username: String
   listName: String
   createdAt: String
+  itemsCount: Int
   items: [Item]
 }
 
@@ -26,6 +27,7 @@ type User {
   _id: ID
   username: String
   email: String
+  listCount: Int
   lists: [List]
 }
 
