@@ -54,8 +54,8 @@ mutation RemoveList($id: ID!) {
 }
 `;
 
-// 
-export cont ADD_ITEM = gql`
+// additem mutaion takes listId, username, itemName, itemDescription, itemImg, itemQuantity, itemPrice
+export const ADD_ITEM = gql`
 mutation AddItem($listId: ID!, $itemName: String!, $itemQuantity: Int!, $username: String!, $itemDescription: String, $itemImg: String, $itemPrice: Float) {
     addItem(listId: $listId, itemName: $itemName, itemQuantity: $itemQuantity, username: $username, itemDescription: $itemDescription, itemImg: $itemImg, itemPrice: $itemPrice) {
         _id
@@ -67,4 +67,25 @@ mutation AddItem($listId: ID!, $itemName: String!, $itemQuantity: Int!, $usernam
         createdAt
     }
 }
+`;
+
+// remove item mutation takes listId and item id as variables
+export const REMOVE_ITEM = gql`
+mutation RemoveItem($listId: ID!, $id: ID!) {
+    removeItem(listId: $listId, _id: $id) {
+      _id
+      listName
+      createdAt
+      itemsCount
+      items {
+        _id
+        itemName
+        itemDescription
+        itemImg
+        itemQuantity
+        itemPrice
+        createdAt
+      }
+    }
+  }
 `;
