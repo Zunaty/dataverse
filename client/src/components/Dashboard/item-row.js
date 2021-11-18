@@ -1,6 +1,6 @@
 import React from "react"
 import {startCase} from "lodash"
-import { Typography, TableRow, TableCell, Button} from '@mui/material';
+import { TableRow, TableCell, Button} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 

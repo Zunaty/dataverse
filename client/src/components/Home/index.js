@@ -1,10 +1,9 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import mainPageImage from '../../images/DataVerseMainPage2.png'
+import mainPageImage from '../../assets/images/DataVerseMainPage2.png'
 
 const theme = createTheme();
 
