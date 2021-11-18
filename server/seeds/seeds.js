@@ -58,7 +58,7 @@ db.once('open', async () => {
         const randomListIndex = Math.floor(Math.random() * createdLists.length);
         const { _id: listId } = createdLists[randomListIndex];
 
-        const createdItem = await Item.create({ itemName, itemDescription, itemImg, itemQuantity, itemPrice });
+        const createdItem = await Item.create({ username, itemName, itemDescription, itemImg, itemQuantity, itemPrice });
         const updatedList = await List.updateOne(
             { _id: listId },
             { $push: { items: createdItem._id } },

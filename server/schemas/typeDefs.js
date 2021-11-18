@@ -15,6 +15,7 @@ type Item {
 
 type List {
   _id: ID
+  username: String
   listName: String
   createdAt: String
   itemsCount: Int
@@ -37,7 +38,7 @@ type User {
   type Query {
     me: User
     user(username: String): [User]
-    lists(_id: ID): [List]
+    lists: [List]
   }
 
   type Mutation {
@@ -45,7 +46,7 @@ type User {
     login(email: String!, password: String!): Auth
     addList(listName: String!): List
     removeList(_id: ID!): User
-    addItem(listId: ID!, itemName: String!, itemDescription: String, itemImg: String, itemQuantity: Int!, itemPrice: Float): Item
+    addItem(listId: ID!, username: String!, itemName: String!, itemDescription: String, itemImg: String, itemQuantity: Int!, itemPrice: Float): Item
     removeItem(listId: ID!, _id: ID!): List
   }
 `;
