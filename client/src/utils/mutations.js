@@ -23,3 +23,48 @@ export const LOGIN_USER = gql`
         }
     }
 `;
+
+// addlist mutation requires listName
+export const ADD_LIST = gql`
+mutation AddList($listName: String!) {
+    addList(listName: $listName) {
+        _id
+        listName
+        createdAt
+        itemsCount
+      items {
+            _id
+        }
+    }
+}
+`;
+
+// removelist mutation require lists ID
+export const REMOVE_LIST = gql`
+mutation RemoveList($id: ID!) {
+    removeList(_id: $id) {
+        _id
+        username
+        email
+        listCount
+      lists {
+            _id
+        }
+    }
+}
+`;
+
+// 
+export cont ADD_ITEM = gql`
+mutation AddItem($listId: ID!, $itemName: String!, $itemQuantity: Int!, $username: String!, $itemDescription: String, $itemImg: String, $itemPrice: Float) {
+    addItem(listId: $listId, itemName: $itemName, itemQuantity: $itemQuantity, username: $username, itemDescription: $itemDescription, itemImg: $itemImg, itemPrice: $itemPrice) {
+        _id
+        itemName
+        itemDescription
+        itemImg
+        itemQuantity
+        itemPrice
+        createdAt
+    }
+}
+`;
