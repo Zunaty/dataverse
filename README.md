@@ -35,9 +35,9 @@ A scalable app used for personal to small business inventories.
 
 ## Site Link and Preview
 
-Site Link..
+[Site Link](https://gentle-temple-58806.herokuapp.com/)
 
-Pictures.. 
+![Preview](./assets/images/preview.png)
 
 ### License Link
 
