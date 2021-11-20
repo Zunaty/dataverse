@@ -9,30 +9,29 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import ListTableRow from "./list-row"
 import { Button } from '@mui/material';
+import { useQuery } from '@apollo/client';
+import { QUERY_LIST } from '../../utils/queries';
+import Auth from '../../utils/auth';
 
-// Test database
-const database = [
-    {
-        name: "Cold Storage", 
-        username: 0, 
-        items:[
-            {name: "Rib Eye", description: "Steak", qty: 10, price: 10.99},
-            {name: "Milk", description: "Whole Milk", qty: 5, price: 1.99},
-        ]
-    },
-    {
-        name: "Dry Storage", 
-        username: 0, 
-        items:[
-            {name: "Spaghetti", description: "Pasta Boxes", qty: 3, price: 5.99},
-            {name: "Gloves", description: "Non-latex boxes", qty: 5, price: 9.99},
-        ]
-    },
-];
 
 export default function Dashboard(){
-    const listRows = database.map((el, i) => {
-        return <ListTableRow key={i} name={el.name} onDelete={()=>{}} items={el.items}/>
+
+    const username = Auth.getProfile().data.username;
+    console.log(username);
+    const { loading, data } = useQuery(QUERY_LIST, {
+        variables: { username: username }
+    });
+
+    if (loading) {
+        console.log("loading")
+    }
+    const lists = data?.lists || [];
+    
+    console.log(lists);
+
+
+    const listRows = lists.map((el, i) => {
+        return <ListTableRow key={i} name={el.listName} onDelete={()=>{}} items={el.items}/>
     });
 
     return (

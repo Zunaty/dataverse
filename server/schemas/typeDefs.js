@@ -38,7 +38,7 @@ type User {
   type Query {
     me: User
     user(username: String): [User]
-    lists: [List]
+    lists(username: String!): [List]
   }
 
   type Mutation {

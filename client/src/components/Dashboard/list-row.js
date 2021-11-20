@@ -1,25 +1,25 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Typography, Table, TableRow, TableHead, TableCell, Collapse, Box, TableBody, Button, TextField} from '@mui/material';
+import { Typography, Table, TableRow, TableHead, TableCell, Collapse, Box, TableBody, Button, TextField } from '@mui/material';
 import ItemRow from './item-row';
-import {startCase} from "lodash"
+import { startCase } from "lodash"
 
-export default function ListTableRow({name, onDelete, items}){
+export default function ListTableRow({ name, onDelete, items }) {
     const [open, setOpen] = useState(false)
 
-    const itemRows = items.map((item, i)=>{
-        return <ItemRow 
+    const itemRows = items.map((item, i) => {
+        return <ItemRow
             key={i}
-            name={item.name} 
-            description={item.description} 
-            price={item.price} 
-            qty={item.qty}
-            onEdit={(()=>{})}
-            onDelete={()=>{}}
-            /> 
+            name={item.itemName}
+            description={item.itemDescription}
+            price={item.itemPrice}
+            qty={item.itemQuantity}
+            onEdit={(() => { })}
+            onDelete={() => { }}
+        />
     })
 
     itemRows.push(
@@ -27,27 +27,27 @@ export default function ListTableRow({name, onDelete, items}){
             <TableCell colSpan={6}>
                 <Box
                     component="form"
-                    sx={{'& > :not(style)': { m: 1, width: '25ch' },}}
+                    sx={{ '& > :not(style)': { m: 1, width: '25ch' }, }}
                     autoComplete="off"
-                    >
+                >
                     <TextField
-                        required 
+                        required
                         label="Item Name"
                         size="small"
                     />
-                     <TextField
-                        required 
+                    <TextField
+                        required
                         label="Description"
                         size="small"
                     />
-                     <TextField
+                    <TextField
                         required
-                        type="number" 
+                        type="number"
                         label="Qty"
                         size="small"
                     />
-                     <TextField
-                        required 
+                    <TextField
+                        required
                         type="number"
                         label="Price"
                         size="small"
@@ -68,9 +68,9 @@ export default function ListTableRow({name, onDelete, items}){
                         size="small"
                         onClick={() => setOpen(!open)}
                     >
-                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                        </IconButton>
-                    </TableCell>
+                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    </IconButton>
+                </TableCell>
                 <TableCell>
                     <Typography variant="h6" component="div">
                         {startCase(name)}
@@ -89,21 +89,21 @@ export default function ListTableRow({name, onDelete, items}){
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             <Typography variant="h6" gutterBottom component="div">
-                               {startCase(name)}
-                           </Typography>
-                           <Table size="small" aria-label="purchases">
-                               <TableHead>
-                                   <TableRow>
-                                       <TableCell>Name</TableCell>
-                                       <TableCell>Description</TableCell>
-                                       <TableCell>Qty</TableCell>
-                                       <TableCell>Price ($)</TableCell>
-                                       <TableCell align="center">Edit</TableCell>
-                                       <TableCell align="center">Delete</TableCell>
-                                   </TableRow>
-                               </TableHead>
-                               <TableBody>
-                                   {itemRows}
+                                {startCase(name)}
+                            </Typography>
+                            <Table size="small" aria-label="purchases">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>Description</TableCell>
+                                        <TableCell>Qty</TableCell>
+                                        <TableCell>Price ($)</TableCell>
+                                        <TableCell align="center">Edit</TableCell>
+                                        <TableCell align="center">Delete</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {itemRows}
                                 </TableBody>
                             </Table>
                         </Box>

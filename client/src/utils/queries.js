@@ -40,22 +40,15 @@ export const QUERY_USER = gql`
 
 // query for lists takes context.user.username as variable returns all of logged in users lists
 export const QUERY_LIST = gql`
-query Lists {
-    lists {
-      _id
-      username
-      listName
-      createdAt
-      itemsCount
-      items {
-        _id
-        itemName
-        itemDescription
-        itemImg
-        itemQuantity
-        itemPrice
-        createdAt
-      }
+query Lists($username: String!) {
+  lists(username: $username) {
+    listName
+    items {
+      itemName
+      itemDescription
+      itemQuantity
+      itemPrice
     }
   }
+}
 `;

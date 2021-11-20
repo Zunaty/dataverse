@@ -29,15 +29,12 @@ const resolvers = {
         },
 
         // query for lists
-        lists: async (parent, args, context) => {
-            if(context.user) {
-                const username = context.user.username;
-                const params = username ? { username } : {};
-                const list = await List.find(params).sort({ createdAt: -1 })
+        lists: async (parent, { username }) => {
+            const params = username ? { username } : {};
+            const list = await List.find(params).sort({ createdAt: -1 })
                 .populate('items');
-                
-                return list;
-            }
+
+            return list;
         }
     },
 
