@@ -43,6 +43,7 @@ export default function Dashboard() {
     const handleSubmit = async event => {
         // event.preventDefault();
         const data = new FormData(event.currentTarget);
+        console.log(data);
         try {
             const mutationResponse = await addList({
                 variables: {

@@ -1,5 +1,6 @@
 //  React
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 
 // Styling
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -16,8 +17,14 @@ import Auth from '../../utils/auth';
 import ItemRow from './item-row';
 
 export default function ListTableRow({ name, items, onDelete }) {
+    const [formState, setFormState] = useState({
+        itemName: '',
+        itemDescription: '',
+        itemPrice: '',
+        itemQuantity: ''
+    });
     const [removeList] = useMutation(REMOVE_LIST);
-    // const [addItem] = useMutation(ADD_ITEM);
+    const [addItem] = useMutation(ADD_ITEM);
     const [open, setOpen] = useState(false);
 
     const itemRows = items.map((item, i) => {
@@ -38,7 +45,7 @@ export default function ListTableRow({ name, items, onDelete }) {
         console.log(data)
         try {
             await removeList({
-                variables: { 
+                variables: {
                     id: data
                 }
             });
@@ -47,36 +54,103 @@ export default function ListTableRow({ name, items, onDelete }) {
             console.log(error)
         }
     };
-    
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+        
+        const data = new FormData(event.currentTarget);
+        const id = event.currentTarget.id;
+        console.log(data, onDelete, id);
+        try {
+            // const mutationResponse = 
+            await addItem({
+                variables: {
+                    id: id,
+                    itemName: "test item hardData",
+                    itemDescription: "test",
+                    itemQuantity: 12,
+                    itemPrice: 23.43
+                }
+            })
+
+            // console.log(mutationResponse.data.addIttem);
+        } catch (error) {
+            console.log(error);
+        }
+
+        // Reseting form to be blank
+        setFormState({
+            itemName: '',
+            itemDescription: '',
+            itemQuantity: '',
+            itemPrice: ''
+        });
+    };
+
+    const handleChange = event => {
+        const { name, value } = event.target;
+        setFormState({
+            ...formState,
+            [name]: value
+        });
+    };
+
     itemRows.push(
         <TableRow>
             <TableCell colSpan={6}>
                 <Box
+                    id={onDelete}
                     component="form"
+                    onSubmit={handleSubmit}
                     sx={{ '& > :not(style)': { m: 1, width: '25ch' }, }}
-                    autoComplete="off"
                 >
                     <TextField
+                        sx={{ m: 2 }}
+                        margin="normal"
                         required
+                        id="itemName"
                         label="Item Name"
-                        size="small"
+                        name="itemName"
+                        // autoComplete="itemName"
+                        autoFocus
+                        value={formState.itemName}
+                        onChange={handleChange}
                     />
                     <TextField
-                        label="Description"
-                        size="small"
+                        sx={{ m: 2 }}
+                        margin="normal"
+                        id="itemDescription"
+                        label="Item Description"
+                        name="itemDescription"
+                        // autoComplete="itemDescription"
+                        autoFocus
+                        value={formState.itemDescription}
+                        onChange={handleChange}
                     />
                     <TextField
+                        sx={{ m: 2 }}
+                        margin="normal"
                         required
-                        type="number"
-                        label="Qty"
-                        size="small"
+                        id="itemQuantity"
+                        label="Item Quantity"
+                        name="itemQuantity"
+                        // autoComplete="itemQuantity"
+                        autoFocus
+                        value={formState.itemQuantity}
+                        onChange={handleChange}
                     />
                     <TextField
-                        type="number"
-                        label="Price"
-                        size="small"
+                        sx={{ m: 2 }}
+                        margin="normal"
+                        id="itemPrice"
+                        label="Item Price"
+                        name="itemPrice"
+                        // autoComplete="itemPrice"
+                        autoFocus
+                        value={formState.itemPrice}
+                        onChange={handleChange}
                     />
-                    <Button variant="contained">Add</Button>
+                    <Button sx={{ m: 3 }} type="submit" variant="contained">Add</Button>
                 </Box>
             </TableCell>
         </TableRow>
