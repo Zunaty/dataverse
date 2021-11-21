@@ -35,15 +35,14 @@ export default function Dashboard() {
     if (loading) {
         return <div>Loading...</div>
     }
-    
+
     const listRows = lists.map((el, i) => {
         return <ListTableRow key={i} name={el.listName} items={el.items} onDelete={el._id} />
     });
 
     const handleSubmit = async event => {
-        // event.preventDefault();
+        event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log(data);
         try {
             const mutationResponse = await addList({
                 variables: {

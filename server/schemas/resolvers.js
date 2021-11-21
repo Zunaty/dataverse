@@ -104,7 +104,7 @@ const resolvers = {
             if (context.user) {
                 const item = await Item.create({ ...args });
 
-                const updatedList = await List.findByIdAndUpdate(
+                await List.findByIdAndUpdate(
                     { _id: args.listId },
                     { $addToSet: { items: item._id } },
                     { new: true, runValidators: true }

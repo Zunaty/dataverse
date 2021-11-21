@@ -39,10 +39,6 @@ export default function ListTableRow({ name, items, onDelete }) {
         />
     })
 
-    // Delete List
-    const [removeList] = useMutation(REMOVE_LIST);
-    
-    
     // List delete button pressed
     const handleDelete = async event => {
         const data = event.currentTarget.id;
@@ -61,23 +57,29 @@ export default function ListTableRow({ name, items, onDelete }) {
 
     const handleSubmit = async event => {
         event.preventDefault();
-        
-        const data = new FormData(event.currentTarget);
         const id = event.currentTarget.id;
-        console.log(data, onDelete, id);
+        const data = new FormData(event.currentTarget);
+
+        // Grabing qty number from string
+        const qtyNumString = formState.itemQuantity;
+        const qtyNum = parseInt(qtyNumString);
+
+        // Grabing price number from string
+        const priceNumbString = formState.itemPrice;
+        const priceNum = parseInt(priceNumbString)
+        
         try {
-            // const mutationResponse = 
-            await addItem({
+            const mutationResponse = await addItem({
                 variables: {
-                    id: id,
-                    itemName: "test item hardData",
-                    itemDescription: "test",
-                    itemQuantity: 12,
-                    itemPrice: 23.43
+                    listId: id,
+                    itemName: data.get('itemName'),
+                    itemDescription: data.get('itemDescription'),
+                    itemQuantity: qtyNum,
+                    itemPrice: priceNum
                 }
             })
 
-            // console.log(mutationResponse.data.addIttem);
+            console.log(mutationResponse.data.addItem);
         } catch (error) {
             console.log(error);
         }
@@ -108,6 +110,8 @@ export default function ListTableRow({ name, items, onDelete }) {
                     onSubmit={handleSubmit}
                     sx={{ '& > :not(style)': { m: 1, width: '25ch' }, }}
                 >
+
+                    {/* Item Name textfield */}
                     <TextField
                         sx={{ m: 2 }}
                         margin="normal"
@@ -115,22 +119,22 @@ export default function ListTableRow({ name, items, onDelete }) {
                         id="itemName"
                         label="Item Name"
                         name="itemName"
-                        // autoComplete="itemName"
-                        autoFocus
                         value={formState.itemName}
                         onChange={handleChange}
                     />
+
+                    {/* Description textfield */}
                     <TextField
                         sx={{ m: 2 }}
                         margin="normal"
                         id="itemDescription"
                         label="Item Description"
                         name="itemDescription"
-                        // autoComplete="itemDescription"
-                        autoFocus
                         value={formState.itemDescription}
                         onChange={handleChange}
                     />
+
+                    {/* Quantity textfield */}
                     <TextField
                         sx={{ m: 2 }}
                         margin="normal"
@@ -138,23 +142,28 @@ export default function ListTableRow({ name, items, onDelete }) {
                         id="itemQuantity"
                         label="Item Quantity"
                         name="itemQuantity"
-                        // autoComplete="itemQuantity"
-                        autoFocus
                         value={formState.itemQuantity}
                         onChange={handleChange}
                     />
+
+                    {/* Price textfield */}
                     <TextField
                         sx={{ m: 2 }}
                         margin="normal"
                         id="itemPrice"
                         label="Item Price"
                         name="itemPrice"
-                        // autoComplete="itemPrice"
-                        autoFocus
                         value={formState.itemPrice}
                         onChange={handleChange}
                     />
-                    <Button sx={{ m: 3 }} type="submit" variant="contained">Add</Button>
+
+                    {/* Form submit button */}
+                    <Button 
+                        sx={{ m: 3 }} 
+                        type="submit" 
+                        variant="contained">
+                            Add
+                    </Button>
                 </Box>
             </TableCell>
         </TableRow>
