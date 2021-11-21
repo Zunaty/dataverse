@@ -67,6 +67,7 @@ const resolvers = {
 
         // addList mutation
         addList: async (parent, args, context) => {
+            console.log(context.user);
             if (context.user) {
                 const list = await List.create({ ...args, username: context.user.username });
 

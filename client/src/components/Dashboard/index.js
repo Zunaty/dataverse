@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,16 +9,17 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import ListTableRow from "./list-row"
-import { Button } from '@mui/material';
-import { useQuery } from '@apollo/client';
+import { Button, TextField, Box } from '@mui/material';
+import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_LIST } from '../../utils/queries';
+import { ADD_LIST } from '../../utils/mutations';
 import Auth from '../../utils/auth';
 
 
 export default function Dashboard() {
-
+    const [formState, setFormState] = useState({ listName: '' });
+    const [addList, { error }] = useMutation(ADD_LIST);
     const username = Auth.getProfile().data.username;
-    console.log(username);
     const { loading, data } = useQuery(QUERY_LIST, {
         variables: { username: username }
     });
@@ -28,10 +30,41 @@ export default function Dashboard() {
         return <div>Loading...</div>
     }
 
-
     const listRows = lists.map((el, i) => {
         return <ListTableRow key={i} name={el.listName} onDelete={() => { }} items={el.items} />
     });
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        console.log(data, "btn click heard");
+        try {
+            const mutationResponse = await addList({
+                variables: {
+                    listName: data.get('listName'),
+                }
+            })
+
+            console.log(mutationResponse);
+        } catch (error) {
+            console.log(error);
+        }
+
+        // Reseting form to be blank
+        setFormState({
+            listName: ''
+        });
+
+
+    };
+
+    const handleChange = event => {
+        const { name, value } = event.target;
+        setFormState({
+            ...formState,
+            [name]: value
+        });
+    };
 
     return (
         <>
@@ -54,8 +87,28 @@ export default function Dashboard() {
 
                             {/* Holding add / Remove List Buttons */}
                             <TableCell>
-                                <Button variant="contained">Add Inv</Button>
+                                <Box component="form" onSubmit={handleSubmit}>
+                                    <Button
+                                        type="submit"
+                                        variant="contained">
+                                        Add Inv
+                                    </Button>
+                                    {/* Temporary list input */}
+                                    <TextField
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="listName"
+                                        label="List Name"
+                                        name="listName"
+                                        autoComplete="listName"
+                                        autoFocus
+                                        value={formState.listName}
+                                        onChange={handleChange}
+                                    />
+                                </Box>
                             </TableCell>
+
                         </TableRow>
                     </TableHead>
 

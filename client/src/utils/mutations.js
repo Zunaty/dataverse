@@ -31,11 +31,6 @@ mutation AddList($listName: String!) {
     addList(listName: $listName) {
         _id
         listName
-        createdAt
-        itemsCount
-      items {
-            _id
-        }
     }
 }
 `;
