@@ -42,8 +42,10 @@ export const QUERY_USER = gql`
 export const QUERY_LIST = gql`
 query Lists($username: String!) {
   lists(username: $username) {
+    _id
     listName
     items {
+      _id
       itemName
       itemDescription
       itemQuantity

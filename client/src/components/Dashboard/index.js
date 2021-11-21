@@ -1,5 +1,8 @@
+// React
 import * as React from 'react';
 import { useState } from 'react';
+
+// Styling
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,37 +11,38 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import ListTableRow from "./list-row"
-import { Button, TextField, Box } from '@mui/material';
+import { Button, TextField, Box, Popover, Stack } from '@mui/material';
+
+// Server, Utils, List Row
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_LIST } from '../../utils/queries';
 import { ADD_LIST } from '../../utils/mutations';
 import Auth from '../../utils/auth';
+import ListTableRow from "./list-row"
 
 
 export default function Dashboard() {
-
+    const [invAdd, setInvAdd] = useState(null);
     const [formState, setFormState] = useState({ listName: '' });
-    const [addList, { error }] = useMutation(ADD_LIST);
+    const [addList] = useMutation(ADD_LIST);
     const username = Auth.getProfile().data.username;
     const { loading, data } = useQuery(QUERY_LIST, {
         variables: { username: username }
     });
 
     const lists = data?.lists || [];
-    
+
     if (loading) {
         return <div>Loading...</div>
     }
     
     const listRows = lists.map((el, i) => {
-        return <ListTableRow key={i} name={el.listName} onDelete={() => { }} items={el.items} />
+        return <ListTableRow key={i} name={el.listName} items={el.items} onDelete={el._id} />
     });
 
     const handleSubmit = async event => {
-        event.preventDefault();
+        // event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log(data, "btn click heard");
         try {
             const mutationResponse = await addList({
                 variables: {
@@ -55,8 +59,6 @@ export default function Dashboard() {
         setFormState({
             listName: ''
         });
-
-
     };
 
     const handleChange = event => {
@@ -67,7 +69,18 @@ export default function Dashboard() {
         });
     };
 
+    // Opens the popover which holds the add inv form
+    const handlePop = (event) => {
+        setInvAdd(event.currentTarget);
+    };
 
+    // Sets state when popover is closed
+    const handleClose = () => {
+        setInvAdd(null);
+    };
+
+    const open = Boolean(invAdd);
+    const id = open ? 'simple-popover' : undefined;
 
     return (
         <>
@@ -88,28 +101,53 @@ export default function Dashboard() {
                                 </Typography>
                             </TableCell>
 
-                            {/* Holding add / Remove List Buttons */}
+                            {/* Button to open popover with form */}
+
                             <TableCell>
-                                <Box component="form" onSubmit={handleSubmit}>
-                                    <Button
-                                        type="submit"
-                                        variant="contained">
-                                        Add Inv
-                                    </Button>
-                                    {/* Temporary list input */}
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="listName"
-                                        label="List Name"
-                                        name="listName"
-                                        autoComplete="listName"
-                                        autoFocus
-                                        value={formState.listName}
-                                        onChange={handleChange}
-                                    />
-                                </Box>
+                                <Button aria-describedby={id} variant="contained" onClick={handlePop}>
+                                    Create Inventory
+                                </Button>
+
+                                <Popover
+                                    id={id}
+                                    open={open}
+                                    anchorEl={invAdd}
+                                    onClose={handleClose}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                >
+                                    <Stack direction="row" spacing={2}>
+                                        <Box component="form" onSubmit={handleSubmit}>
+
+                                            {/* Temporary list input */}
+                                            <TextField
+                                                sx={{ m: 2 }}
+                                                margin="normal"
+                                                required
+                                                id="listName"
+                                                label="New Inventory"
+                                                name="listName"
+                                                autoComplete="listName"
+                                                autoFocus
+                                                value={formState.listName}
+                                                onChange={handleChange}
+                                            />
+
+                                            <Button
+                                                sx={{ m: 3 }}
+                                                type="submit"
+                                                variant="contained">
+                                                Add Inv
+                                            </Button>
+                                        </Box>
+                                    </Stack>
+                                </Popover>
                             </TableCell>
 
                         </TableRow>
