@@ -24,10 +24,10 @@ db.once('open', async () => {
     const createdUsers = await User.collection.insertMany(userData);
 
     let createdLists = [];
-    for (let i = 0; i < 100; i += 1) {
+    for (let i = 0; i < 20; i += 1) {
 
         // list data generation
-        const listName = faker.name.jobTitle();
+        const listName = faker.random.word();
 
         const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
         const { username, _id: userId } = createdUsers.ops[randomUserIndex];
@@ -45,7 +45,7 @@ db.once('open', async () => {
 
     let createdItems = [];
     // create items
-    for (let i = 0; i < 100; i += 1) {
+    for (let i = 0; i < 50; i += 1) {
         const itemName = faker.commerce.productName();
         const itemDescription = faker.lorem.sentence();
         const itemImg = faker.image.imageUrl();

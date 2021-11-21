@@ -29,12 +29,16 @@ const resolvers = {
         },
 
         // query for lists
-        lists: async (parent, { username }) => {
-            const params = username ? { username } : {};
-            const list = await List.find(params).sort({ createdAt: -1 })
-                .populate('items');
-
-            return list;
+        lists: async (parent, { username }, context) => {
+            if (context.user) {
+                const params = username ? { username } : {};
+                // const params = context.user.username;
+                console.log(params);
+                const list = await List.find(params).sort({ createdAt: -1 })
+                    .populate('items');
+    
+                return list;
+            }
         }
     },
 
@@ -67,7 +71,6 @@ const resolvers = {
 
         // addList mutation
         addList: async (parent, args, context) => {
-            console.log(context.user);
             if (context.user) {
                 const list = await List.create({ ...args, username: context.user.username });
 

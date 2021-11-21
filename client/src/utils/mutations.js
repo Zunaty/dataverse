@@ -30,7 +30,15 @@ export const ADD_LIST = gql`
 mutation AddList($listName: String!) {
     addList(listName: $listName) {
         _id
+        username
         listName
+        items {
+            _id
+            itemName
+            itemDescription
+            itemQuantity
+            itemPrice
+        }
     }
 }
 `;
@@ -69,19 +77,19 @@ mutation AddItem($listId: ID!, $itemName: String!, $itemQuantity: Int!, $usernam
 export const REMOVE_ITEM = gql`
 mutation RemoveItem($listId: ID!, $id: ID!) {
     removeItem(listId: $listId, _id: $id) {
-      _id
-      listName
-      createdAt
-      itemsCount
-      items {
         _id
-        itemName
-        itemDescription
-        itemImg
-        itemQuantity
-        itemPrice
+        listName
         createdAt
-      }
+        itemsCount
+      items {
+            _id
+            itemName
+            itemDescription
+            itemImg
+            itemQuantity
+            itemPrice
+            createdAt
+        }
     }
-  }
+}
 `;

@@ -17,6 +17,7 @@ import Auth from '../../utils/auth';
 
 
 export default function Dashboard() {
+
     const [formState, setFormState] = useState({ listName: '' });
     const [addList, { error }] = useMutation(ADD_LIST);
     const username = Auth.getProfile().data.username;
@@ -25,11 +26,11 @@ export default function Dashboard() {
     });
 
     const lists = data?.lists || [];
-
+    
     if (loading) {
         return <div>Loading...</div>
     }
-
+    
     const listRows = lists.map((el, i) => {
         return <ListTableRow key={i} name={el.listName} onDelete={() => { }} items={el.items} />
     });
@@ -45,7 +46,7 @@ export default function Dashboard() {
                 }
             })
 
-            console.log(mutationResponse);
+            console.log(mutationResponse.data.addList);
         } catch (error) {
             console.log(error);
         }
@@ -65,6 +66,8 @@ export default function Dashboard() {
             [name]: value
         });
     };
+
+
 
     return (
         <>

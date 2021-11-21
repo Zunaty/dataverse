@@ -19,18 +19,6 @@ import Dashboard from './components/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
-// const client = new ApolloClient({
-//   cache: new InMemoryCache(),
-//   request: operation => {
-//     const token = localStorage.getItem('id_token');
-//     operation.setContext({
-//       headers: {
-//         authorization: token ? `Bearer ${token}` : ''
-//       }
-//     });
-//   },
-//   uri: '/graphql'
-// });
 
 const httpLink = createHttpLink({
   uri: '/graphql',
