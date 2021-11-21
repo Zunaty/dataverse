@@ -60,20 +60,21 @@ export default function ListTableRow({ name, items, onDelete }) {
         
         const data = new FormData(event.currentTarget);
         const id = event.currentTarget.id;
-        console.log(data, onDelete, id);
+        const qty = data.get('itemQuantity');
+        const parsedQty = parseInt(qty);
+        console.log(parsedQty);
         try {
-            // const mutationResponse = 
-            await addItem({
+            const mutationResponse = await addItem({
                 variables: {
-                    id: id,
-                    itemName: "test item hardData",
-                    itemDescription: "test",
-                    itemQuantity: 12,
-                    itemPrice: 23.43
+                    listId: id,
+                    itemName: data.get('itemName'),
+                    itemDescription: data.get('itemDescription'),
+                    itemQuantity: parsedQty,
+                    itemPrice: 2.32
                 }
             })
 
-            // console.log(mutationResponse.data.addIttem);
+            console.log(mutationResponse.data.addItem);
         } catch (error) {
             console.log(error);
         }

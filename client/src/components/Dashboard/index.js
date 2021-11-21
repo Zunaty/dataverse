@@ -41,7 +41,7 @@ export default function Dashboard() {
     });
 
     const handleSubmit = async event => {
-        // event.preventDefault();
+        event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log(data);
         try {
