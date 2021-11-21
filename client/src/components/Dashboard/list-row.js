@@ -16,10 +16,9 @@ import Auth from '../../utils/auth';
 import ItemRow from './item-row';
 
 export default function ListTableRow({ name, items, onDelete }) {
-    const [removeList] = useMutation(REMOVE_LIST);
     // const [addItem] = useMutation(ADD_ITEM);
     const [open, setOpen] = useState(false);
-
+    
     const itemRows = items.map((item, i) => {
         return <ItemRow
             key={i}
@@ -32,6 +31,10 @@ export default function ListTableRow({ name, items, onDelete }) {
         />
     })
 
+    // Delete List
+    const [removeList] = useMutation(REMOVE_LIST);
+    
+    
     // List delete button pressed
     const handleDelete = async event => {
         const data = event.currentTarget.id;
