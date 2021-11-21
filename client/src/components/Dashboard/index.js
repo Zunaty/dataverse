@@ -14,7 +14,7 @@ import { QUERY_LIST } from '../../utils/queries';
 import Auth from '../../utils/auth';
 
 
-export default function Dashboard(){
+export default function Dashboard() {
 
     const username = Auth.getProfile().data.username;
     console.log(username);
@@ -22,16 +22,15 @@ export default function Dashboard(){
         variables: { username: username }
     });
 
-    if (loading) {
-        console.log("loading")
-    }
     const lists = data?.lists || [];
-    
-    console.log(lists);
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
 
     const listRows = lists.map((el, i) => {
-        return <ListTableRow key={i} name={el.listName} onDelete={()=>{}} items={el.items}/>
+        return <ListTableRow key={i} name={el.listName} onDelete={() => { }} items={el.items} />
     });
 
     return (
