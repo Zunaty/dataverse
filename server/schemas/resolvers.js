@@ -32,10 +32,13 @@ const resolvers = {
         lists: async (parent, { username }, context) => {
             if (context.user) {
                 const params = username ? { username } : {};
+<<<<<<< HEAD
                 // const params = context.user.username;
+=======
+>>>>>>> 9e2392d20c860a2bfc9e08359f588830837fbc3c
                 const list = await List.find(params).sort({ createdAt: -1 })
                     .populate('items');
-    
+
                 return list;
             }
         }
@@ -93,7 +96,6 @@ const resolvers = {
                     { $pull: { lists: args._id } },
                     { new: true }
                 );
-
                 await List.findByIdAndDelete({ _id: args._id });
 
                 return userUpdate;
@@ -118,7 +120,26 @@ const resolvers = {
 
             throw new AuthenticationError('You need to be logged in!');
         },
+        // updateItem mutation
+        updateItem: async (parent, args, context) => {
+            console.log(args);
+            if (context.user) {
+                const updatedItem = await Item.findByIdAndUpdate(
+                    { _id: args.itemId },
+                    { $set:
+                        {itemName: args.itemName,
+                        itemDescription: args.itemDescription,
+                        itemQuantity: args.itemQuantity,
+                        itemPrice: args.itemPrice}
+                    },
+                    { new: true, runValidators: true }
+                );
 
+                return updatedItem;
+            }
+
+            throw new AuthenticationError('You need to be logged in!');
+        },
         // Remove Item
         removeItem: async (parent, args, context) => {
             if (context.user) {
@@ -127,7 +148,7 @@ const resolvers = {
                     { $pull: { items: args._id } },
                     { new: true, runValidators: true }
                 );
-                
+
                 await Item.findByIdAndDelete({ _id: args._id });
 
                 return updatedList;
