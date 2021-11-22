@@ -85,6 +85,8 @@ const resolvers = {
 
             throw new AuthenticationError('You need to be logged in!');
         },
+
+        // Remove List
         removeList: async (parent, args, context) => {
             if (context.user) {
                 const userUpdate = await User.findByIdAndUpdate(
@@ -99,6 +101,7 @@ const resolvers = {
 
             throw new AuthenticationError("Log in to remove list");
         },
+
         // addItem mutation
         addItem: async (parent, args, context) => {
             if (context.user) {
@@ -115,16 +118,22 @@ const resolvers = {
 
             throw new AuthenticationError('You need to be logged in!');
         },
+
+        // Remove Item
         removeItem: async (parent, args, context) => {
             if (context.user) {
-                await List.findByIdAndUpdate(
+                const updatedList = await List.findByIdAndUpdate(
                     { _id: args.listId },
                     { $pull: { items: args._id } },
                     { new: true, runValidators: true }
                 );
+                
                 await Item.findByIdAndDelete({ _id: args._id });
+<<<<<<< HEAD
                 const updatedList = await List.findOne({ _id: args.listId })
                     .populate('items');
+=======
+>>>>>>> d89cf6f41fa148231b079232236eb453c1011afb
 
                 return updatedList;
             }
