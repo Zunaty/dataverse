@@ -33,7 +33,6 @@ const resolvers = {
             if (context.user) {
                 const params = username ? { username } : {};
                 // const params = context.user.username;
-                console.log(params, "lists query");
                 const list = await List.find(params).sort({ createdAt: -1 })
                     .populate('items');
     

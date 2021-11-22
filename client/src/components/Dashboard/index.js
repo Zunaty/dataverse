@@ -26,6 +26,7 @@ export default function Dashboard() {
     const [formState, setFormState] = useState({ listName: '' });
     const [addList] = useMutation(ADD_LIST);
     const username = Auth.getProfile().data.username;
+
     const { loading, data } = useQuery(QUERY_LIST, {
         variables: { username: username }
     });
@@ -41,7 +42,7 @@ export default function Dashboard() {
     });
 
     const handleSubmit = async event => {
-        event.preventDefault();
+        // event.preventDefault();
         const data = new FormData(event.currentTarget);
         try {
             const mutationResponse = await addList({
@@ -96,7 +97,7 @@ export default function Dashboard() {
 
                             {/* Inventory Name Title */}
                             <TableCell>
-                                <Typography variant="h4" component="div">
+                                <Typography variant="h6" component="div">
                                     Inventory Name
                                 </Typography>
                             </TableCell>

@@ -93,3 +93,7 @@ mutation RemoveItem($listId: ID!, $id: ID!) {
     }
 }
 `;
+
+// Update an item
+export const UPDATE_ITEM = gql`
+`;

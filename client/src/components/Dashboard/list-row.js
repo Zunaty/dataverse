@@ -22,6 +22,7 @@ export default function ListTableRow({ name, items, onDelete }) {
         itemPrice: '',
         itemQuantity: ''
     });
+
     const [removeList] = useMutation(REMOVE_LIST);
     const [addItem] = useMutation(ADD_ITEM);
     const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ export default function ListTableRow({ name, items, onDelete }) {
             itemID = {item._id}
             listID = {onDelete}
         />
-    })
+    });
 
     // List delete button pressed
     const handleDelete = async event => {
@@ -55,7 +56,7 @@ export default function ListTableRow({ name, items, onDelete }) {
     };
 
     const handleSubmit = async event => {
-        event.preventDefault();
+        // event.preventDefault();
         const id = event.currentTarget.id;
         const data = new FormData(event.currentTarget);
 
@@ -65,7 +66,7 @@ export default function ListTableRow({ name, items, onDelete }) {
 
         // Grabing price number from string
         const priceNumbString = formState.itemPrice;
-        const priceNum = parseInt(priceNumbString)
+        const priceNum = parseInt(priceNumbString);
         
         try {
             const mutationResponse = await addItem({
@@ -83,8 +84,9 @@ export default function ListTableRow({ name, items, onDelete }) {
             console.log(error);
         }
 
-        // Reseting form to be blank
+        // Resetting form to be blank
         setFormState({
+            ...formState,
             itemName: '',
             itemDescription: '',
             itemQuantity: '',

@@ -8,12 +8,6 @@ import mainPageImage from '../../assets/images/DataVerseMainPage2.png'
 const theme = createTheme();
 
 function Home() {
-  // const navigate = useNavigate();
-
-  // const goToLogin = async event => {
-  //   event.preventDefault();
-  //   navigate("/login");
-  // }
 
   return (
     <div style={{
@@ -32,12 +26,12 @@ function Home() {
       >
         <ThemeProvider theme={theme}>
           <Container maxWidth="xs">
-          <Container sx={{ ml: 18.5, mb: 5}}>
+          <Container sx={{ ml: 0, mb: 5}}>
               <Button href="/login" variant="contained">
                 {"Login"}
               </Button>
             </Container>
-            <Container sx={{ ml: 5 }}>
+            <Container sx={{ ml: 0 }}>
               <Button href="/signup" variant="contained">
                 {"Don't have an account? Sign Up"}
               </Button>
