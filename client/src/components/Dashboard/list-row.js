@@ -11,9 +11,8 @@ import { Typography, Table, TableRow, TableHead, TableCell, Collapse, Box, Table
 import { startCase } from "lodash"
 
 // Server, Utils, Item Row
-import { useQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { ADD_ITEM, REMOVE_LIST } from '../../utils/mutations';
-import Auth from '../../utils/auth';
 import ItemRow from './item-row';
 
 export default function ListTableRow({ name, items, onDelete }) {
@@ -29,13 +28,13 @@ export default function ListTableRow({ name, items, onDelete }) {
     
     const itemRows = items.map((item, i) => {
         return <ItemRow
-            key={i}
-            name={item.itemName}
-            description={item.itemDescription}
-            price={item.itemPrice}
-            qty={item.itemQuantity}
-            onEdit={item._id}
-            onDelete={item._id}
+            key = {i}
+            name = {item.itemName}
+            description = {item.itemDescription}
+            price = {item.itemPrice}
+            qty = {item.itemQuantity}
+            itemID = {item._id}
+            listID = {onDelete}
         />
     })
 
