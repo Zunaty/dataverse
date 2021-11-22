@@ -84,7 +84,6 @@ mutation RemoveItem($listId: ID!, $id: ID!) {
             _id
             itemName
             itemDescription
-            itemImg
             itemQuantity
             itemPrice
             createdAt
