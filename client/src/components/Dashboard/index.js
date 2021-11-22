@@ -30,9 +30,7 @@ export default function Dashboard() {
 
     const responsive = () => (
         <div>
-            <MediaQuery minWidth={1224}>
-                <MediaQuery minWidth={1824}>
-                    <MediaQuery minResolution="2dppx">
+
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
 
@@ -108,12 +106,7 @@ export default function Dashboard() {
                     </TableBody>
                 </Table>
             </TableContainer> 
-            <p>small screen</p>
-            </MediaQuery>
-            <p>You have a large screen</p>
-            </MediaQuery>
-            <p>You are a desktop or laptop</p>
-            </MediaQuery>
+
         </div>
     )
 
@@ -175,6 +168,7 @@ export default function Dashboard() {
 
     return (
         <>
+
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
 
@@ -250,6 +244,7 @@ export default function Dashboard() {
                     </TableBody>
                 </Table>
             </TableContainer>
+
         </>
     );
 };
