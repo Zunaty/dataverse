@@ -12,6 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Box, Popover, Stack } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 // Server, Utils, List Row
 import { useQuery, useMutation } from '@apollo/client';
@@ -85,6 +86,13 @@ export default function Dashboard() {
 
     return (
         <>
+              <Grid container
+        height='777px'
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
 
@@ -160,6 +168,7 @@ export default function Dashboard() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </Grid>
         </>
     );
 };
