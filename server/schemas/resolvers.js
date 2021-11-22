@@ -118,7 +118,6 @@ const resolvers = {
         },
         // updateItem mutation
         updateItem: async (parent, args, context) => {
-            console.log(args);
             if (context.user) {
                 const updatedItem = await Item.findByIdAndUpdate(
                     { _id: args.itemId },
