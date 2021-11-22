@@ -30,6 +30,19 @@ export default function Dashboard() {
 
     const responsive = () => (
         <div>
+                <h1>Device Test!</h1>
+    <MediaQuery minWidth={1224}>
+      <p>You are a desktop or laptop</p>
+      <MediaQuery minWidth={1824}>
+        <p>You also have a huge screen</p>
+
+    <MediaQuery minResolution="2dppx">
+      {/* You can also use a function (render prop) as a child */}
+      {(matches) =>
+        matches
+          ? <p>You are retina</p>
+          : <p>You are not retina</p>
+      }
 
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
@@ -106,7 +119,9 @@ export default function Dashboard() {
                     </TableBody>
                 </Table>
             </TableContainer> 
-
+                </MediaQuery>
+            </MediaQuery>
+    </MediaQuery>
         </div>
     )
 
@@ -168,7 +183,8 @@ export default function Dashboard() {
 
     return (
         <>
-
+        {responsive}
+        <MediaQuery>
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
 
@@ -244,7 +260,7 @@ export default function Dashboard() {
                     </TableBody>
                 </Table>
             </TableContainer>
-
+            </MediaQuery>
         </>
     );
 };
