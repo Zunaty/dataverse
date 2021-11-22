@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 // Styling
 import { startCase } from "lodash"
-import { TableRow, TableCell, Button, TextField } from '@mui/material';
+import { TableRow, TableCell, Button, TextField, Popover, Box } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -15,12 +15,11 @@ import { REMOVE_ITEM, UPDATE_ITEM } from '../../utils/mutations';
 export default function ItemRow({ name, description, qty, price, itemID, listID }) {
     const [removeItem] = useMutation(REMOVE_ITEM);
     const [updateItem] = useMutation(UPDATE_ITEM);
-    const [editClick, setEditClick] = useState(false);
     const [formState, setFormState] = useState({
-        itemName: '',
-        itemDescription: '',
-        itemPrice: '',
-        itemQuantity: ''
+        itemName: name,
+        itemDescription: description,
+        itemPrice: price,
+        itemQuantity: qty
     });
 
     // Item delete Button
@@ -77,86 +76,106 @@ export default function ItemRow({ name, description, qty, price, itemID, listID 
         });
     };
 
+    const [editAdd, setEditAdd] = useState(null);
+
+    // Opens the popover which holds the add inv form
+    const handlePop = (event) => {
+        setEditAdd(event.currentTarget);
+    };
+
+    // Sets state when popover is closed
+    const handleClose = () => {
+        setEditAdd(null);
+    };
+
+    const open = Boolean(editAdd);
+    const id = open ? 'simple-popover' : undefined;
+
     return (
         <TableRow>
-            {!editClick ? (
-                <>
-                    <TableCell>{startCase(name)}</TableCell>
-                    <TableCell>{description}</TableCell>
-                    <TableCell>{qty}</TableCell>
-                    <TableCell>{price}</TableCell>
 
-                    {/* Edit Button */}
-                    <TableCell align="center">
-                        <Button variant="contained" id={itemID} onClick={setEditClick(true)}>
-                            Edit
-                        </Button>
-                    </TableCell>
-                </>
-            ) : (
-                <>
-                    {/* Edit Name Textfield */}
-                    <TableCell>
+            <TableCell>{startCase(name)}</TableCell>
+            <TableCell>{description}</TableCell>
+            <TableCell>{qty}</TableCell>
+            <TableCell>{price}</TableCell>
+
+            {/* Edit Button */}
+            <TableCell align="center">
+                <Button variant="contained" aria-describedby={id} id={itemID} onClick={handlePop}>
+                    Edit
+                </Button>
+
+                <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={editAdd}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                >
+                    <Box component="form" onSubmit={handleEdit}>
+
+                        {/* Temporary list input */}
                         <TextField
                             sx={{ m: 2 }}
                             margin="normal"
                             required
                             id="itemName"
-                            label="Item Name"
                             name="itemName"
+                            autoComplete="itemName"
+                            autoFocus
                             value={formState.itemName}
                             onChange={handleChange}
                         />
-                    </TableCell>
-
-                    {/* Edit Description Textfield */}
-                    <TableCell>
+                        {/* Temporary list input */}
                         <TextField
                             sx={{ m: 2 }}
                             margin="normal"
                             id="itemDescription"
-                            label="Item Description"
                             name="itemDescription"
+                            autoComplete="itemDescription"
+                            
                             value={formState.itemDescription}
                             onChange={handleChange}
                         />
-                    </TableCell>
-
-                    {/* Edit Quantity Textfield */}
-                    <TableCell>
+                        {/* Temporary list input */}
                         <TextField
                             sx={{ m: 2 }}
                             margin="normal"
                             required
                             id="itemQuantity"
-                            label="Item Quantity"
                             name="itemQuantity"
+                            autoComplete="itemQuantity"
+                            
                             value={formState.itemQuantity}
                             onChange={handleChange}
                         />
-                    </TableCell>
-
-                    {/* Edit Price Textfield */}
-                    <TableCell>
+                        {/* Temporary list input */}
                         <TextField
                             sx={{ m: 2 }}
                             margin="normal"
                             id="itemPrice"
-                            label="Item Price"
                             name="itemPrice"
+                            autoComplete="itemPrice"
                             value={formState.itemPrice}
                             onChange={handleChange}
                         />
-                    </TableCell>
 
-                    {/* Edit Button */}
-                    <TableCell align="center">
-                        <Button variant="contained" id={itemID} onClick={setEditClick(false)}>
-                            Edit
+                        <Button
+                            sx={{ m: 3 }}
+                            type="submit"
+                            variant="contained">
+                            Done
                         </Button>
-                    </TableCell>
-                </>
-            )}
+                    </Box>
+                </Popover>
+            </TableCell>
 
             {/* Delete Button */}
             <TableCell align="center">

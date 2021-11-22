@@ -56,17 +56,19 @@ export default function ListTableRow({ name, items, onDelete }) {
     };
 
     const handleSubmit = async event => {
-        // event.preventDefault();
+        event.preventDefault();
         const id = event.currentTarget.id;
         const data = new FormData(event.currentTarget);
 
         // Grabing qty number from string
-        const qtyNumString = formState.itemQuantity;
+        const qtyNumString = data.get('itemQuantity');
         const qtyNum = parseInt(qtyNumString);
 
         // Grabing price number from string
-        const priceNumbString = formState.itemPrice;
+        const priceNumbString = data.get('itemPrice');
         const priceNum = parseInt(priceNumbString);
+
+        console.log(qtyNum, priceNum);
         
         try {
             const mutationResponse = await addItem({
