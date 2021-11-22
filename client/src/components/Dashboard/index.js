@@ -12,6 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { Button, TextField, Box, Popover, Stack } from '@mui/material';
+import MediaQuery from 'react-responsive';
 
 // Server, Utils, List Row
 import { useQuery, useMutation } from '@apollo/client';
@@ -26,6 +27,95 @@ export default function Dashboard() {
     const [formState, setFormState] = useState({ listName: '' });
     const [addList] = useMutation(ADD_LIST);
     const username = Auth.getProfile().data.username;
+
+    const responsive = () => (
+        <div>
+            <MediaQuery minWidth={1224}>
+                <MediaQuery minWidth={1824}>
+                    <MediaQuery minResolution="2dppx">
+            <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+
+                    {/* Top of table */}
+                    <TableHead>
+                        <TableRow>
+
+                            {/* Blank table cell */}
+                            <TableCell />
+
+                            {/* Inventory Name Title */}
+                            <TableCell>
+                                <Typography variant="h6" component="div">
+                                    Inventory Name
+                                </Typography>
+                            </TableCell>
+
+                            {/* Button to open popover with form */}
+
+                            <TableCell>
+                                <Button aria-describedby={id} variant="contained" onClick={handlePop}>
+                                    Create Inventory
+                                </Button>
+
+                                <Popover
+                                    id={id}
+                                    open={open}
+                                    anchorEl={invAdd}
+                                    onClose={handleClose}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                >
+                                    <Stack direction="row" spacing={2}>
+                                        <Box component="form" onSubmit={handleSubmit}>
+
+                                            {/* Temporary list input */}
+                                            <TextField
+                                                sx={{ m: 2 }}
+                                                margin="normal"
+                                                required
+                                                id="listName"
+                                                label="New Inventory"
+                                                name="listName"
+                                                autoComplete="listName"
+                                                autoFocus
+                                                value={formState.listName}
+                                                onChange={handleChange}
+                                            />
+
+                                            <Button
+                                                sx={{ m: 3 }}
+                                                type="submit"
+                                                variant="contained">
+                                                Add Inv
+                                            </Button>
+                                        </Box>
+                                    </Stack>
+                                </Popover>
+                            </TableCell>
+
+                        </TableRow>
+                    </TableHead>
+
+                    {/* Table body holding lists (inventories) from the database */}
+                    <TableBody>
+                        {listRows}
+                    </TableBody>
+                </Table>
+            </TableContainer> 
+            <p>small screen</p>
+            </MediaQuery>
+            <p>You have a large screen</p>
+            </MediaQuery>
+            <p>You are a desktop or laptop</p>
+            </MediaQuery>
+        </div>
+    )
 
     const { loading, data } = useQuery(QUERY_LIST, {
         variables: { username: username }
