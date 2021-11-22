@@ -12,9 +12,6 @@ const itemSchema = new Schema(
             type: String,
             trim: true
         },
-        itemImg: {
-            type: String
-        },
         itemQuantity: {
             type: Number,
             min: 0,

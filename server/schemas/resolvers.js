@@ -32,11 +32,9 @@ const resolvers = {
         lists: async (parent, { username }, context) => {
             if (context.user) {
                 const params = username ? { username } : {};
-                // const params = context.user.username;
-                console.log(params, "lists query");
                 const list = await List.find(params).sort({ createdAt: -1 })
                     .populate('items');
-    
+
                 return list;
             }
         }
@@ -118,7 +116,26 @@ const resolvers = {
 
             throw new AuthenticationError('You need to be logged in!');
         },
+        // updateItem mutation
+        updateItem: async (parent, args, context) => {
+            console.log(args);
+            if (context.user) {
+                const updatedItem = await Item.findByIdAndUpdate(
+                    { _id: args.itemId },
+                    { $set:
+                        {itemName: args.itemName,
+                        itemDescription: args.itemDescription,
+                        itemQuantity: args.itemQuantity,
+                        itemPrice: args.itemPrice}
+                    },
+                    { new: true, runValidators: true }
+                );
 
+                return updatedItem;
+            }
+
+            throw new AuthenticationError('You need to be logged in!');
+        },
         // Remove Item
         removeItem: async (parent, args, context) => {
             if (context.user) {
@@ -127,7 +144,7 @@ const resolvers = {
                     { $pull: { items: args._id } },
                     { new: true, runValidators: true }
                 );
-                
+
                 await Item.findByIdAndDelete({ _id: args._id });
 
                 return updatedList;

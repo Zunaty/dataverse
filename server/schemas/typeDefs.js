@@ -7,7 +7,6 @@ type Item {
   _id: ID
   itemName: String
   itemDescription: String
-  itemImg: String
   itemQuantity: Int
   itemPrice: Float
   createdAt: String
@@ -46,7 +45,8 @@ type User {
     login(email: String!, password: String!): Auth
     addList(listName: String!): List
     removeList(_id: ID!): User
-    addItem(listId: ID!, itemName: String!, itemDescription: String, itemImg: String, itemQuantity: Int!, itemPrice: Float): Item
+    addItem(listId: ID!, itemName: String!, itemDescription: String, itemQuantity: Int!, itemPrice: Float): Item
+    updateItem(itemId: ID!, itemName: String!, itemDescription: String, itemQuantity: Int!, itemPrice: Float): Item
     removeItem(listId: ID!, _id: ID!): List
   }
 `;
