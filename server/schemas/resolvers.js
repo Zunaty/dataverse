@@ -92,7 +92,7 @@ const resolvers = {
                     { $pull: { lists: args._id } },
                     { new: true }
                 );
-                const deletedList = await List.findByIdAndDelete({ _id: args._id });
+                await List.findByIdAndDelete({ _id: args._id });
 
                 return userUpdate;
             }
@@ -123,7 +123,7 @@ const resolvers = {
                     { new: true, runValidators: true }
                 );
                 await Item.findByIdAndDelete({ _id: args._id });
-                const updatedList = List.findOne({ _id: args.listId })
+                const updatedList = await List.findOne({ _id: args.listId })
                     .populate('items');
 
                 return updatedList;
