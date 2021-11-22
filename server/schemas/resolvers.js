@@ -32,10 +32,6 @@ const resolvers = {
         lists: async (parent, { username }, context) => {
             if (context.user) {
                 const params = username ? { username } : {};
-<<<<<<< HEAD
-                // const params = context.user.username;
-=======
->>>>>>> 9e2392d20c860a2bfc9e08359f588830837fbc3c
                 const list = await List.find(params).sort({ createdAt: -1 })
                     .populate('items');
 
