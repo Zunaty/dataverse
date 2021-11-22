@@ -56,7 +56,7 @@ export default function ListTableRow({ name, items, onDelete }) {
     };
 
     const handleSubmit = async event => {
-        event.preventDefault();
+        // event.preventDefault();
         const id = event.currentTarget.id;
         const data = new FormData(event.currentTarget);
 
