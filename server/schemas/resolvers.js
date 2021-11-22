@@ -129,11 +129,6 @@ const resolvers = {
                 );
                 
                 await Item.findByIdAndDelete({ _id: args._id });
-<<<<<<< HEAD
-                const updatedList = await List.findOne({ _id: args.listId })
-                    .populate('items');
-=======
->>>>>>> d89cf6f41fa148231b079232236eb453c1011afb
 
                 return updatedList;
             }
