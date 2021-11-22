@@ -93,3 +93,15 @@ mutation RemoveItem($listId: ID!, $id: ID!) {
     }
 }
 `;
+
+export const UPDATE_ITEM = gql`
+mutation UpdateItem($itemId: ID!, $itemName: String!, $itemQuantity: Int!, $itemDescription: String, $itemPrice: Float) {
+    updateItem(itemId: $itemId, itemName: $itemName, itemQuantity: $itemQuantity, itemDescription: $itemDescription, itemPrice: $itemPrice) {
+      _id
+      itemName
+      itemDescription
+      itemQuantity
+      itemPrice
+      createdAt
+    }
+  }`;
