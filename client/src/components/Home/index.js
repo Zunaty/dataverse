@@ -1,10 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import mainPageImage from '../../assets/images/DataVerseMainPage2.png'
-
-const theme = createTheme();
+import mainPageImage from '../../assets/images/DataVerseMainPage2.png';
 
 function Home() {
 
