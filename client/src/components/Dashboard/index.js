@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-// Importing MUI Styling
+// Importing MUI Components
 import {
     Table,
     TableBody,

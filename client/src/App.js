@@ -14,7 +14,7 @@ import Auth from './utils/auth';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Dashboard from './components/Dashboard';
+import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
@@ -57,9 +57,9 @@ const theme = createTheme({
             main: '#4d7298',
         },
     },
-    typography: {
-        fontFamily: 'Roboto',
-    },
+    // typography: {
+    //     fontFamily: 'Roboto',
+    // },
 });
 
 function App() {
