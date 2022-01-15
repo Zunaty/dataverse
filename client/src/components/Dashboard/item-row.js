@@ -97,7 +97,7 @@ export default function ItemRow({ name, description, qty, price, itemID, listID 
             <TableCell>{startCase(name)}</TableCell>
             <TableCell>{description}</TableCell>
             <TableCell>{qty}</TableCell>
-            <TableCell>{price}</TableCell>
+            <TableCell>${price}</TableCell>
 
             {/* Edit Button */}
             <TableCell align="center">

@@ -20,14 +20,16 @@ export const QUERY_ME = gql`
             email
             listCount
             lists {
-              _id
-              listName
-              createdAt
-              itemsCount
+				_id
+				listName
+				createdAt
+				itemsCount
             }
           }
     }
 `;
+
+// grabbing user
 export const QUERY_USER = gql`
     query user($username: String!) {
         user(username: $username) {
@@ -40,17 +42,17 @@ export const QUERY_USER = gql`
 
 // query for lists takes context.user.username as variable returns all of logged in users lists
 export const QUERY_LIST = gql`
-query Lists($username: String!) {
-  lists(username: $username) {
-    _id
-    listName
-    items {
-      _id
-      itemName
-      itemDescription
-      itemQuantity
-      itemPrice
-    }
-  }
-}
+	query Lists($username: String!) {
+		lists(username: $username) {
+			_id
+			listName
+			items {
+				_id
+				itemName
+				itemDescription
+				itemQuantity
+				itemPrice
+			}
+		}
+	}
 `;

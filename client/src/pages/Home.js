@@ -1,10 +1,13 @@
+// importing React
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import mainPageImage from '../../assets/images/DataVerseMainPage2.png';
+
+// Importing MUI components
+import { Button, Grid } from '@mui/material';
+
+// Importing image
+import mainPageImage from '../assets/images/DataVerseMainPage2.png';
 
 function Home() {
-
   return (
     <div style={{
       backgroundImage: `url(${mainPageImage})`,

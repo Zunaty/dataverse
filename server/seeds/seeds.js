@@ -15,7 +15,7 @@ db.once('open', async () => {
     for (let i = 0; i < 10; i += 1) {
         // user data generation
         const username = faker.internet.userName();
-        const email = faker.internet.email(username);
+        const email = faker.internet.email(username).toLowerCase();
         const password = faker.internet.password();
 
         userData.push({ username, email, password });

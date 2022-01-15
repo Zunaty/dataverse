@@ -1,164 +1,129 @@
-// This is based off the MUI provided template
-
+// Importing React
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
 
+// Importing MUI Components
+import {
+    AppBar,
+    Box,
+    Toolbar,
+    IconButton,
+    Typography,
+    Menu,
+    Link,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemText
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+
+// Util Import
 import Auth from '../../utils/auth';
 
-
 function Nav() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    // Menu open and close
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const isMenuOpen = Boolean(anchorEl);
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    // Login, Signup, and Logout actions
+    const login = () => {
+        window.location.href="/login"
+    };
+    const signup = () => {
+        window.location.href="/signup"
+    };
+    const logout = event => {
+        event.preventDefault();
+        Auth.logout();
+    };
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const logout = event => {
-    event.preventDefault();
-    Auth.logout();
-  };
-
-  // Account click menu
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      {Auth.loggedIn() ? (
-        <>
-          <MenuItem onClick={logout}>Logout</MenuItem>
-        </>
-      ) : (
-        <>
-          <MenuItem >
-            <Button variant="outlined" href="/login">Login</Button>
-          </MenuItem>
-          <MenuItem >
-            <Button variant="outlined" href="/signup">Signup</Button>
-          </MenuItem>
-        </>
-      )}
-      
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
+    // Menu
+    const menuId = 'menu-pop';
+    const renderMenu = (
+        <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+                vertical: 'center',
+                horizontal: 'center',
+            }}
+            id={menuId}
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+            MenuListProps={{'aria-labelledby': 'basic-button'}}
         >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
+            <List>
+                {Auth.loggedIn() ? (
+                    <>
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={logout}>
+                                <ListItemText primary="Logout" />
+                            </ListItemButton>
+                        </ListItem>
+                    </>
+                ) : (
+                    <>
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={login}>
+                                <ListItemText primary="Login" />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={signup}>
+                                <ListItemText primary="Signup" />
+                            </ListItemButton>
+                        </ListItem>
+                    </>
+                )}
+            </List>
+        </Menu>
+    );
 
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          {/* App Title */}
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            <Button href="/" variant="contained">DataVerse</Button>
-          </Typography>
+    return (
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static">
+                <Toolbar>
+                    {/* App Title */}
+                    <Typography
+                        variant="h5"
+                        noWrap
+                        component="div"
+                    >
+                        <Link href="/" underline="none" color="inherit">DataVerse</Link>
+                    </Typography>
 
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-    </Box>
-  );
-}
+                    {/* Hidden box */}
+                    <Box sx={{ flexGrow: 1 }} />
 
+                    {/* Menu Button */}
+                    <Box >
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="menu"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            onClick={handleMenuOpen}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+            {renderMenu}
+        </Box>
+    );
+};
 
 export default Nav;
