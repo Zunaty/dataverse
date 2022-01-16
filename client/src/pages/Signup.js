@@ -62,6 +62,7 @@ function Signup(props) {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    height: '100vh'
                 }}
             >
                 {/* Sign Up title */}

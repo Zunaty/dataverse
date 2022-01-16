@@ -3,7 +3,6 @@ import * as React from 'react';
 
 // Importing MUI Components
 import {
-    CssBaseline,
     Box,
     Typography,
     Container
@@ -15,26 +14,22 @@ function Footer() {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: '100vh',
+                bgcolor: 'primary.main'
             }}
         >
-            <CssBaseline />
             <Box
                 component="footer"
                 sx={{
                     py: 3,
                     px: 2,
-                    mt: 'auto',
-                    backgroundColor: (theme) =>
-                        theme.palette.mode === 'light'
-                            ? theme.palette.grey[200]
-                            : theme.palette.grey[800],
+                    mt: 'auto'
                 }}
             >
                 <Container maxWidth="sm">
-                    <Typography variant="body1">
-                        This app was created with
-                        ReactJS and MUI
+                    <Typography sx={{
+                        color: 'white'
+                    }}>
+                        {"This app was created with ReactJS and MUI"}
                     </Typography>
                 </Container>
             </Box>

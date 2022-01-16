@@ -2,7 +2,8 @@
 import React from 'react';
 
 // Importing MUI theme styling
-import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 
 // Importing utils
 import { Routes, Route } from 'react-router-dom';
@@ -66,6 +67,7 @@ function App() {
     return (
         <ApolloProvider client={client}>
             <ThemeProvider theme={theme}>
+                <CssBaseline />
                 <div>
                     <header>
                         <Nav />

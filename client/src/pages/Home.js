@@ -2,40 +2,40 @@
 import * as React from 'react';
 
 // Importing MUI components
-import { Button, Grid } from '@mui/material';
-
-// Importing image
-import mainPageImage from '../assets/images/DataVerseMainPage2.png';
+import { Button, Box, Typography } from '@mui/material';
 
 function Home() {
     return (
-        <div style={{
-            backgroundImage: `url(${mainPageImage})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            height: '777px',
-            marginTop: '25px'
+        <Box sx={{
+            height: '100vh'
         }}>
-            <Grid container
-                height='777px'
-                spacing={0}
-                direction="column"
-                alignItems="center"
-                justifyContent="center"
-            >
-                <Button href="/login" variant="contained" sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    p: 1,
-                    m: 1
-                }}>
+            <Typography variant="h2">
+                {"Welcome to Dataverse!"}
+            </Typography>
+
+            <Typography variant="h4">
+                {"Your small business & personal inventory management solution"}
+            </Typography>
+
+            <Typography variant="h6">
+                {"Keep track of all your lists and inventories on one app, and items within those lists/inventories"}
+            </Typography>
+
+            {/* Signup button and push */}
+            <Typography>
+                {"To get started sign up or login"}
+            </Typography>
+            <Box>
+                <Button href="/signup" variant="contained">
+                    {"Sign Up"}
+                </Button>
+
+                <Button href="/login" variant="contained">
                     {"Login"}
                 </Button>
-                <Button href="/signup" variant="contained">
-                    {"Don't have an account? Sign Up"}
-                </Button>
-            </Grid>
-        </div >
+
+            </Box>
+        </Box>
     );
 };
 

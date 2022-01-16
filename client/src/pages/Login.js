@@ -69,6 +69,7 @@ function Login() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    height: '100vh'
                 }}
             >
                 {/* Sign In Title Text */}
