@@ -16,7 +16,7 @@ import {
     Container,
     Grid,
     Paper,
-    Popover
+    Modal
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
@@ -30,8 +30,9 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
 // Importing Utils
 import Chart from '../components/Dashboard/chart';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_LIST } from '../utils/queries';
+import { ADD_LIST } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 // Left Menu Animation/Styling
@@ -61,25 +62,76 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+}
+
 function Dashboard() {
-    const [invAdd, setInvAdd] = useState(null);
-    const [open, setOpen] = React.useState(false);
+    // Inventory add and state
+    const [modalOpen, setModalOpen] = useState(false);
+    const [formState, setFormState] = useState({ listName: '' });
+    const [addList] = useMutation(ADD_LIST);
+    const handleMOpen = () => setModalOpen(true);
+    const handleMClose = (e) => {
+        e.stopPropagation();
+        setModalOpen(false);
+    };
+
+    // Left Menu state
+    const [open, setOpen] = useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
     };
 
+    // Grabing User lists
     const username = Auth.getProfile().data.username;
     const { loading, data } = useQuery(QUERY_LIST, {
         variables: { username: username }
     });
-
     const lists = data?.lists || [];
-
     if (loading) {
         return <div>Loading...</div>
     }
-
     console.log(lists)
+
+
+    const handleChange = event => {
+        const { name, value } = event.target;
+        setFormState({
+            ...formState,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        try {
+            const mutationResponse = await addList({
+                variables: {
+                    listName: data.get('listName'),
+                }
+            })
+
+            console.log(mutationResponse.data.addList);
+        } catch (error) {
+            console.log(error);
+        }
+
+        // Reseting form to be blank
+        setFormState({
+            listName: ''
+        });
+    };
+
 
     // Full list name when left menu open
     const userListNames = lists.map((list, index) =>
@@ -87,7 +139,7 @@ function Dashboard() {
             <ListItemButton>
                 <ListItemText primary={list.listName} sx={{
                     textAlign: 'center'
-                }}/>
+                }} />
                 <IconButton sx={{
                     '&:hover': {
                         color: 'red'
@@ -109,19 +161,6 @@ function Dashboard() {
             </ListItemButton>
         </ListItem>
     );
-
-    const handleAddPoP = (event) => {
-        setInvAdd(event.currentTarget);
-    };
-
-    const handleAddClose = () => {
-        setInvAdd(null);
-    };
-
-    const popOpen = Boolean(invAdd);
-    const popID = popOpen ? 'simple-popover' : undefined;
-
-    // const [itemsState, setItemsState] = useState({ itemName: '', itemDes: '', itemPrice: 0, itemQuantity: 0, itemID: ''  })
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -162,27 +201,25 @@ function Dashboard() {
                 >
                     {!open ? (
                         <>
-                            <IconButton 
-                                sx={{ '&:hover': {color: 'green'}}}
-                                aria-describedby={popID}
-                                onClick={handleAddPoP}
+                            <IconButton
+                                sx={{ '&:hover': { color: 'green' } }}
+                                onClick={handleMOpen}
                             >
-                                <Popover
-                                    id={popID}
-                                    open={popOpen}
-                                    anchorEl={invAdd}
-                                    onClose={handleAddClose}
-                                    anchorOrigin={{
-                                        vertical: 'center',
-                                        horizontal: 'center'
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'center',
-                                        horizontal: 'center'
-                                    }}
+                                <Modal
+                                    open={modalOpen}
+                                    onClose={handleMClose}
+                                    aria-labelledby="add-inv-modal"
+                                    aria-describedby="adding-list"
                                 >
-
-                                </Popover>
+                                    <Box sx={modalStyle}>
+                                        <Typography id="add-inv-modal" variant='h5'>
+                                            Add an Inventory
+                                        </Typography>
+                                        <Typography id="adding-list">
+                                            lkdjflksjdf
+                                        </Typography>
+                                    </Box>
+                                </Modal>
                                 <AddRoundedIcon />
                             </IconButton>
                         </>
@@ -191,7 +228,25 @@ function Dashboard() {
                             <Typography variant="h6">
                                 Add List
                             </Typography>
-                            <IconButton sx={{ '&:hover': {color: 'green'}}}>
+                            <IconButton
+                                sx={{ '&:hover': { color: 'green' } }}
+                                onClick={handleMOpen}
+                            >
+                                <Modal
+                                    open={modalOpen}
+                                    onClose={handleMClose}
+                                    aria-labelledby="add-inv-modal"
+                                    aria-describedby="adding-list"
+                                >
+                                    <Box sx={modalStyle}>
+                                        <Typography id="add-inv-modal" variant='h5'>
+                                            Add an Inventory
+                                        </Typography>
+                                        <Typography id="adding-list">
+                                            lkdjflksjdf
+                                        </Typography>
+                                    </Box>
+                                </Modal>
                                 <AddRoundedIcon />
                             </IconButton>
                         </>
@@ -216,9 +271,6 @@ function Dashboard() {
                             </>
                         ) : (
                             <>
-                                {/* <Typography variant="h6" mr={1}>
-                                    {"Current Inventories"}
-                                </Typography> */}
                                 {userListNames}
                             </>
                         )}
