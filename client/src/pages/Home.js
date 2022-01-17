@@ -2,48 +2,102 @@
 import * as React from 'react';
 
 // Importing MUI components
-import { Button, Box, Typography } from '@mui/material';
+import { 
+    Button, 
+    Box, 
+    Typography,
+    Grid
+} from '@mui/material';
+import { blueGrey } from '@mui/material/colors';
 
 
 
 export default function Home() {
+    const bg = blueGrey[500];
+    
     return (
         <Box sx={{
-            height: '100vh'
+            height: '100vh',
+            flexGrow: 1
         }}>
-            <Typography variant="h2">
-                {"Welcome to Dataverse!"}
-            </Typography>
+            <Grid container spacing={3}>
+                <Grid sx={12} md={12}>
+                    <Typography
+                        variant="h2"
+                        sx={{
+                            my: 10,
+                            ml: 5,
+                        }}
+                    >
+                        {"Welcome to Dataverse!"}
+                    </Typography>
+                </Grid>
 
-            <Typography variant="h4">
-                {"Your small business & personal inventory management solution"}
-            </Typography>
+                <Grid sx={12} md={8}>
+                    <Box 
+                        sx={{
+                            ml: 5,
+                            mt: 5,
+                        }}
+                    >
+                        <Typography variant="h4">
+                            {"Your small business & personal inventory management solution"}
+                        </Typography>
 
-            <Typography variant="h6">
-                {"Keep track of all your lists and inventories on one app, and items within those lists/inventories"}
-            </Typography>
+                        <Typography variant="h6">
+                            {"Keep track of all your lists and inventories on one app, and items within those lists/inventories"}
+                        </Typography>
+                    </Box>
+                </Grid>
 
-            {/* Signup button and push */}
-            <Typography>
-                {"To get started sign up or login"}
-            </Typography>
-            <Box>
-                <Button 
-                    href="/signup" 
-                    variant="contained"
-                    sx={{ m: 3 }}
-                >
-                    {"Sign Up"}
-                </Button>
+                <Grid sx={12} md={4}>
+                    {/* Signup button and push */}
+                    <Box
+                        sx={{
+                            height: 200,
+                            m: 3,
+                            ml: 6,
+                            bgcolor: bg,
+                            alignItems: 'center'
+                        }}
+                    >
+                        <Typography variant='h6' sx={{ color: 'white', p: 3, textAlign: 'center' }}>
+                            {"To get started sign up or login"}
+                        </Typography>
 
-                <Button 
-                    href="/login" 
-                    variant="contained"
-                    sx={{ m: 3 }}
-                >
-                    {"Login"}
-                </Button>
-            </Box>
+                        <Box 
+                            sx={{
+                                p: 3,
+                                alignContent: 'center'
+                            }}
+                        >
+                            <Button
+                                href="/signup"
+                                variant="contained"
+                                sx={{
+                                    ml: 3,
+                                    mr: 1
+                                }}
+                            >
+                                {"Sign Up"}
+                            </Button>
+
+                            <Button
+                                href="/login"
+                                variant="contained"
+                                sx={{
+                                    mr: 3,
+                                    ml: 1
+                                }}
+                            >
+                                {"Login"}
+                            </Button>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
+
+
         </Box>
     );
 };
