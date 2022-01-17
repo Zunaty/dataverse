@@ -20,6 +20,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 
 
+
+// Connecting to server
 const httpLink = createHttpLink({
     uri: '/graphql',
 });
@@ -40,6 +42,8 @@ const client = new ApolloClient({
 });
 
 const loggedIn = Auth.loggedIn();
+
+
 
 // MUI Theme
 const theme = createTheme({
@@ -63,7 +67,9 @@ const theme = createTheme({
     // },
 });
 
-function App() {
+
+
+export default function App() {
     return (
         <ApolloProvider client={client}>
             <ThemeProvider theme={theme}>
@@ -101,5 +107,3 @@ function App() {
         </ApolloProvider>
     )
 };
-
-export default App;

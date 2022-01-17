@@ -19,7 +19,9 @@ import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
-function Signup(props) {
+
+
+export default function Signup(props) {
     const [formState, setFormState] = useState({ username: '', password: '', email: '' });
     const [addUser] = useMutation(ADD_USER);
 
@@ -142,5 +144,3 @@ function Signup(props) {
         </Container>
     );
 };
-
-export default Signup;

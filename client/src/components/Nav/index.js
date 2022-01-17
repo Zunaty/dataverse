@@ -20,7 +20,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 // Util Import
 import Auth from '../../utils/auth';
 
-function Nav() {
+
+
+export default function Nav() {
     // Menu open and close
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isMenuOpen = Boolean(anchorEl);
@@ -125,5 +127,3 @@ function Nav() {
         </Box>
     );
 };
-
-export default Nav;

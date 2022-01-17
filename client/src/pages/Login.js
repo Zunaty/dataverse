@@ -20,9 +20,9 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
-const errorColor = red[500];
 
-function Login() {
+
+export default function Login() {
     const [formState, setFormState] = useState({ email: '', password: '' });
     const [userLogin, { error }] = useMutation(LOGIN_USER);
 
@@ -59,6 +59,8 @@ function Login() {
             [name]: value
         });
     };
+
+    const errorColor = red[500];
 
     return (
         <Container component="main" maxWidth="xs">
@@ -141,5 +143,3 @@ function Login() {
         </Container>
     )
 };
-
-export default Login;

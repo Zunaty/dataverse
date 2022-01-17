@@ -13,10 +13,10 @@ import {
     ListItemText,
     Divider,
     IconButton,
-    Container,
-    Grid,
-    Paper,
-    Modal
+    Modal,
+    Stack,
+    TextField,
+    Button
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
@@ -29,11 +29,13 @@ import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBullete
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
 // Importing Utils
-import Chart from '../components/Dashboard/chart';
+import Content from '../components/Dashboard/content';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_LIST } from '../utils/queries';
-import { ADD_LIST } from '../utils/mutations';
+import { ADD_LIST, REMOVE_LIST } from '../utils/mutations';
 import Auth from '../utils/auth';
+
+
 
 // Left Menu Animation/Styling
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -62,25 +64,31 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
+// Styling of modal
 const modalStyle = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 'auto',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 }
 
-function Dashboard() {
-    // Inventory add and state
+
+
+export default function Dashboard() {
+    // Inventory state and mutations
     const [modalOpen, setModalOpen] = useState(false);
     const [formState, setFormState] = useState({ listName: '' });
+    const [listIndex, setListIndex] = useState({ index: 0 });
     const [addList] = useMutation(ADD_LIST);
-    const handleMOpen = () => setModalOpen(true);
-    const handleMClose = (e) => {
+    const [removeList] = useMutation(REMOVE_LIST);
+
+    const handleModalOpen = () => setModalOpen(true);
+    const handleModalClose = (e) => {
         e.stopPropagation();
         setModalOpen(false);
     };
@@ -100,9 +108,9 @@ function Dashboard() {
     if (loading) {
         return <div>Loading...</div>
     }
-    console.log(lists)
+    // console.log(lists)
 
-
+    // Checking and saving stuff added in the add inv textfield
     const handleChange = event => {
         const { name, value } = event.target;
         setFormState({
@@ -111,6 +119,7 @@ function Dashboard() {
         });
     };
 
+    // Sending add inv data to server
     const handleSubmit = async event => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -130,21 +139,55 @@ function Dashboard() {
         setFormState({
             listName: ''
         });
+
+        window.location.reload(false);
     };
 
+    // List delete button pressed
+    const handleDelete = async event => {
+        const listID = event.currentTarget.id;
+        try {
+            await removeList({
+                variables: {
+                    id: listID
+                }
+            });
+
+        } catch (error) {
+            console.log(error)
+        }
+
+        window.location.reload(false);
+    };
+
+    const selectedListContent = (event) => {
+        const { id } = event.currentTarget;
+        setListIndex({
+            ...listIndex,
+            index: id
+        });
+    }
 
     // Full list name when left menu open
     const userListNames = lists.map((list, index) =>
         <ListItem key={index} disableGutters>
-            <ListItemButton>
+            <ListItemButton
+                id={index}
+                name={list.listName}
+                onClick={selectedListContent}
+            >
                 <ListItemText primary={list.listName} sx={{
                     textAlign: 'center'
                 }} />
-                <IconButton sx={{
-                    '&:hover': {
-                        color: 'red'
-                    }
-                }}>
+                <IconButton
+                    sx={{
+                        '&:hover': {
+                            color: 'red'
+                        }
+                    }}
+                    id={list._id}
+                    onClick={handleDelete}
+                >
                     <DeleteForeverRoundedIcon />
                 </IconButton>
             </ListItemButton>
@@ -154,7 +197,12 @@ function Dashboard() {
     // Number for list when left menu is closed
     const userListID = lists.map((list, index) =>
         <ListItem key={index} disableGutters>
-            <ListItemButton disableGutters>
+            <ListItemButton
+                disableGutters
+                id={index}
+                name={list.listName}
+                onClick={selectedListContent}
+            >
                 <ListItemText primary={index + 1} sx={{
                     textAlign: 'center'
                 }} />
@@ -162,8 +210,24 @@ function Dashboard() {
         </ListItem>
     );
 
+    // Displays the content for the selected list in the left menu
+    const listItems = [
+        <>
+            <Content
+                listName={lists[listIndex.index].listName}
+                listID={lists[listIndex.index]._id}
+                items={lists[listIndex.index].items}
+            />
+        </>
+    ];
+
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box
+            sx={{
+                display: 'flex',
+                height: '100vh'
+            }}
+        >
 
             {/* This is the left side menu */}
             <Drawer variant="permanent" open={open}>
@@ -203,21 +267,49 @@ function Dashboard() {
                         <>
                             <IconButton
                                 sx={{ '&:hover': { color: 'green' } }}
-                                onClick={handleMOpen}
+                                onClick={handleModalOpen}
                             >
                                 <Modal
                                     open={modalOpen}
-                                    onClose={handleMClose}
+                                    onClose={handleModalClose}
                                     aria-labelledby="add-inv-modal"
                                     aria-describedby="adding-list"
                                 >
                                     <Box sx={modalStyle}>
-                                        <Typography id="add-inv-modal" variant='h5'>
+                                        <Typography
+                                            id="add-inv-modal"
+                                            variant='h5'
+                                            sx={{
+                                                textAlign: 'center'
+                                            }}
+                                        >
                                             Add an Inventory
                                         </Typography>
-                                        <Typography id="adding-list">
-                                            lkdjflksjdf
-                                        </Typography>
+                                        <Stack direction="row" spacing={2}>
+                                            <Box component="form" onSubmit={handleSubmit}>
+
+                                                {/* Temporary list input */}
+                                                <TextField
+                                                    sx={{ m: 2 }}
+                                                    margin="normal"
+                                                    required
+                                                    id="listName"
+                                                    label="New Inventory"
+                                                    name="listName"
+                                                    autoComplete="listName"
+                                                    autoFocus
+                                                    value={formState.listName}
+                                                    onChange={handleChange}
+                                                />
+
+                                                <Button
+                                                    sx={{ m: 3 }}
+                                                    type="submit"
+                                                    variant="contained">
+                                                    Add Inv
+                                                </Button>
+                                            </Box>
+                                        </Stack>
                                     </Box>
                                 </Modal>
                                 <AddRoundedIcon />
@@ -230,11 +322,11 @@ function Dashboard() {
                             </Typography>
                             <IconButton
                                 sx={{ '&:hover': { color: 'green' } }}
-                                onClick={handleMOpen}
+                                onClick={handleModalOpen}
                             >
                                 <Modal
                                     open={modalOpen}
-                                    onClose={handleMClose}
+                                    onClose={handleModalClose}
                                     aria-labelledby="add-inv-modal"
                                     aria-describedby="adding-list"
                                 >
@@ -278,75 +370,8 @@ function Dashboard() {
                 </List>
             </Drawer>
 
-            {/* This box is the back of main view */}
-            <Box
-                component="main"
-                sx={{
-                    backgroundColor: (theme) =>
-                        theme.palette.mode === 'light'
-                            ? theme.palette.grey[200]
-                            : theme.palette.grey[900],
-                    flexGrow: 1,
-                    height: '100vh',
-                    overflow: 'auto',
-                }}
-            >
-                <Toolbar />
-                <Container maxWidth="lg" sx={{ mb: 4 }}>
-                    <Grid container spacing={3}>
+            {listItems}
 
-                        {/* Item Chart Box */}
-                        <Grid item xs={12} md={8} lg={9}>
-                            <Paper
-                                sx={{
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 400,
-                                }}
-                            >
-                                {/* Graph / Chart */}
-                                <Chart />
-                            </Paper>
-                        </Grid>
-
-                        {/* Item Details */}
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper
-                                sx={{
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 400,
-                                }}
-                            >
-                                Item Name
-
-                                <br />
-                                <br />
-                                <br />
-                                Item Des
-
-                                <br />
-                                <br />
-                                <br />
-                                <br />
-                                edit item / delete item buttons
-
-                            </Paper>
-                        </Grid>
-
-                        {/* Showing all items in list */}
-                        <Grid item xs={12}>
-                            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                All items that are part of this list show here
-                            </Paper>
-                        </Grid>
-                    </Grid>
-                </Container>
-            </Box>
         </Box>
     );
-}
-
-export default Dashboard;
+};

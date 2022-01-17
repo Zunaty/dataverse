@@ -4,7 +4,9 @@ import * as React from 'react';
 // Importing MUI components
 import { Button, Box, Typography } from '@mui/material';
 
-function Home() {
+
+
+export default function Home() {
     return (
         <Box sx={{
             height: '100vh'
@@ -26,17 +28,22 @@ function Home() {
                 {"To get started sign up or login"}
             </Typography>
             <Box>
-                <Button href="/signup" variant="contained">
+                <Button 
+                    href="/signup" 
+                    variant="contained"
+                    sx={{ m: 3 }}
+                >
                     {"Sign Up"}
                 </Button>
 
-                <Button href="/login" variant="contained">
+                <Button 
+                    href="/login" 
+                    variant="contained"
+                    sx={{ m: 3 }}
+                >
                     {"Login"}
                 </Button>
-
             </Box>
         </Box>
     );
 };
-
-export default Home;

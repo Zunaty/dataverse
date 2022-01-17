@@ -14,6 +14,8 @@ import {
     ResponsiveContainer
 } from 'recharts';
 
+
+
 // Generate Data
 function createData(time, amount) {
     return { time, amount };
@@ -28,6 +30,8 @@ const data = [
     createData('Thurs', 10),
     createData('Today', 15),
 ];
+
+
 
 export default function Chart() {
     const theme = useTheme();

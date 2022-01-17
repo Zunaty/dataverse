@@ -8,7 +8,9 @@ import {
     Container
 } from '@mui/material';
 
-function Footer() {
+
+
+export default function Footer() {
     return (
         <Box
             sx={{
@@ -36,5 +38,3 @@ function Footer() {
         </Box>
     );
 };
-
-export default Footer;
