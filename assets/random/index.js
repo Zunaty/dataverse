@@ -2,17 +2,23 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-// Styling
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import { Button, TextField, Box, Popover, Stack } from '@mui/material';
-import Grid from '@mui/material/Grid';
+// Importing MUI Components
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+    Paper,
+    Button,
+    TextField,
+    Box,
+    Popover,
+    Stack,
+    Grid
+} from '@mui/material';
 
 // Server, Utils, List Row
 import { useQuery, useMutation } from '@apollo/client';
@@ -22,7 +28,7 @@ import Auth from '../../utils/auth';
 import ListTableRow from "./list-row"
 
 
-export default function Dashboard() {
+function Dashboard() {
     const [invAdd, setInvAdd] = useState(null);
     const [formState, setFormState] = useState({ listName: '' });
     const [addList] = useMutation(ADD_LIST);
@@ -43,7 +49,7 @@ export default function Dashboard() {
     });
 
     const handleSubmit = async event => {
-        // event.preventDefault();
+        event.preventDefault();
         const data = new FormData(event.currentTarget);
         try {
             const mutationResponse = await addList({
@@ -85,14 +91,13 @@ export default function Dashboard() {
     const id = open ? 'simple-popover' : undefined;
 
     return (
-        <>
-              <Grid container
-        height='777px'
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-      >
+        <Grid container
+            // height='777px'
+            spacing={0}
+            direction="column"
+            alignItems="center"
+        // justifyContent="center"
+        >
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
 
@@ -168,7 +173,8 @@ export default function Dashboard() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            </Grid>
-        </>
+        </Grid>
     );
 };
+
+export default Dashboard;

@@ -1,81 +1,109 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-// import { ApolloProvider } from '@apollo/react-hooks';
-// import { ApolloClient, InMemoryCache } from "@apollo/client";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client';
+// Importing React
+import React from 'react';
+
+// Importing MUI theme styling
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+
+// Importing utils
+import { Routes, Route } from 'react-router-dom';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import Auth from './utils/auth';
 
 // importing our components / pages
 import Nav from './components/Nav';
 import Footer from './components/Footer';
-import Home from './components/Home';
-import Dashboard from './components/Dashboard';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
 
+
+// Connecting to server
 const httpLink = createHttpLink({
-  uri: '/graphql',
+    uri: '/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
+    const token = localStorage.getItem('id_token');
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : '',
+        },
+    };
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
 });
 
 const loggedIn = Auth.loggedIn();
 
-function App() {
 
-  return (
-    <ApolloProvider client={client}>
-      <div>
-        <header>
-          <Nav />
-        </header>
 
-        <main>
-          {loggedIn ? (
-            <>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route element="404 Page Not Found" />
-              </Routes>
-            </>
-          ) : (
-            <>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route element="404 Page Not Found" />
-              </Routes>
-            </>
-          )}
-        </main>
+// MUI Theme
+const theme = createTheme({
+    palette: {
+        type: 'light',
+        primary: {
+            main: '#455a64',
+        },
+        secondary: {
+            main: '#0097a7',
+        },
+        success: {
+            main: '#FFCDB2',
+        },
+        info: {
+            main: '#4d7298',
+        },
+    },
+    // typography: {
+    //     fontFamily: 'Roboto',
+    // },
+});
 
-        <footer>
-          <Footer />
-        </footer>
-      </div>
-    </ApolloProvider>
-  )
+
+
+export default function App() {
+    return (
+        <ApolloProvider client={client}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <div>
+                    <header>
+                        <Nav />
+                    </header>
+
+                    <main>
+                        {loggedIn ? (
+                            <>
+                                <Routes>
+                                    <Route path="/" element={<Dashboard />} />
+                                    <Route element="404 Page Not Found" />
+                                </Routes>
+                            </>
+                        ) : (
+                            <>
+                                <Routes>
+                                    <Route path="/" element={<Home />} />
+                                    <Route path="/login" element={<Login />} />
+                                    <Route path="/signup" element={<Signup />} />
+                                    <Route element="404 Page Not Found" />
+                                </Routes>
+                            </>
+                        )}
+                    </main>
+
+                    <footer>
+                        <Footer />
+                    </footer>
+                </div>
+            </ThemeProvider>
+        </ApolloProvider>
+    )
 };
-
-export default App;

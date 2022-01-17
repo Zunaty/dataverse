@@ -10,13 +10,21 @@ A scalable app used for personal to small business inventories.
 - Express.js
 - Apollo / Graphql
 - Mongoose
+- Recharts
 
 ## Future Features
 
 - Searching for items, lists, and users.
 - Account Page
 - The ability to add other users to your lists
-- Users added to your list would be able to add and manage a list
+- Users added to your list will be able to add and manage your shared list
+
+## Bugs / Known Issues
+
+- Dashboard mobile view
+- Chart is a work in progress, need to update server item model to save dates in array
+- Homepage is a work in progress, needs to be visually updated
+- Edit button in Dashboard won't hold current item values, must retype parts you don't wanna change
 
 ## Team Memebers and Contributers
 
